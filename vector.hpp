@@ -4,11 +4,7 @@
 
 namespace ft
 {
-	template <bool Cond, class T = void>
-	struct enable_if
-	{
-		typedef T type;
-	};
+	
 
 	template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T *, class Reference = T &>
 	struct iterator
@@ -19,7 +15,7 @@ namespace ft
 		typedef Reference reference;
 		typedef Category iterator_category;
 	};
-
+	// enable_if<is_integral<type>>::type;
 	template <class Iterator>
 	class iterator_traits
 	{
@@ -60,6 +56,7 @@ namespace ft
 		typedef typename iterator_traits<Iterator>::pointer pointer;
 		typedef typename iterator_traits<Iterator>::reference reference;
 		typedef Iterator iterator_type;
+
 	private:
 		Iterator i;
 	};
