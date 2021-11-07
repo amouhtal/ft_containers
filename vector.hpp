@@ -1,12 +1,16 @@
 #ifndef __CONTAINER_HPP
 #define __CONTAINER_HPP
 #include <iostream>
+#include "enable_if.hpp"
+#include "utils/utils.hpp"
+#include "reverse_iterator.hpp"
+#include "iterator"
+
 
 namespace ft
 {
-	
-
 	template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T *, class Reference = T &>
+
 	struct iterator
 	{
 		typedef T value_type;
@@ -46,114 +50,6 @@ namespace ft
 		typedef typename std::random_access_iterator_tag iterator_category;
 	};
 
-	template <class Iterator>
-	class reverse_iterator
-	{
-	public:
-		typedef typename iterator_traits<Iterator>::iterator_category iterator_category;
-		typedef typename iterator_traits<Iterator>::value_type value_type;
-		typedef typename iterator_traits<Iterator>::difference_type difference_type;
-		typedef typename iterator_traits<Iterator>::pointer pointer;
-		typedef typename iterator_traits<Iterator>::reference reference;
-		typedef Iterator iterator_type;
-
-	private:
-		Iterator i;
-	};
-
-	template <typename T>
-	class MyIterator : public std::iterator<std::input_iterator_tag, T>
-	{
-	private:
-		T *p;
-
-	public:
-		MyIterator(int *x) : p(x) {}
-		MyIterator(const MyIterator &mit) : p(mit.p) {}
-		T *base() const
-		{
-			T *t;
-			t = new (T);
-			t = p;
-			return (t);
-		}
-
-		int &operator*()
-		{
-			return *p;
-		}
-
-		MyIterator &operator++()
-		{
-			++p;
-			return *this;
-		}
-
-		MyIterator operator+(ptrdiff_t __n)
-		{
-			p + __n;
-			return (*this);
-		}
-
-		MyIterator operator++(int)
-		{
-			MyIterator tmp(*this);
-			operator++();
-			return tmp;
-		}
-
-		MyIterator operator+=(ptrdiff_t __n)
-		{
-			p + __n;
-			return (*this);
-		}
-
-		MyIterator &operator-(ptrdiff_t __n)
-		{
-			return (p - __n);
-		}
-
-		MyIterator operator--()
-		{
-			p++;
-			return p;
-		}
-
-		MyIterator operator--(int)
-		{
-			MyIterator tmp(*this);
-			operator--();
-			return tmp;
-		}
-
-		MyIterator operator-=(ptrdiff_t __n)
-		{
-			p - __n;
-			return (*this);
-		}
-
-		MyIterator operator-(ptrdiff_t __n)
-		{
-			p - __n;
-			return (*this);
-		}
-
-		MyIterator operator[](ptrdiff_t __n)
-		{
-			p - __n;
-			return (*this);
-		}
-
-		bool operator==(const MyIterator &rhs) const
-		{
-			return p == rhs.p;
-		}
-
-		bool operator!=(const MyIterator &rhs) const
-		{
-			return p != rhs.p;
-		}
-	};
 
 	template <typename T, class Alloc = std::allocator<T> >
 	class vector

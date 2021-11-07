@@ -1,33 +1,37 @@
-#include <iostream>
+// lexicographical_compare example
+#include <iostream>     // std::cout, std::boolalpha
+#include <algorithm>    // std::lexicographical_compare
+#include <cctype>       // std::tolower
+#include "vector.hpp"
+#include <vector>
+// a case-insensitive comparison function:
+bool mycomp (char c1, char c2)
+{ return std::tolower(c1)<std::tolower(c2); }
 
-template <typename T>
-struct has_typedef_foobar
-{
-	// Types "yes" and "no" are guaranteed to have different sizes,
-	// specifically sizeof(yes) == 1 and sizeof(no) == 2.
-	typedef char yes[1];
-	typedef char no[2];
+int main (){
 
-	template <typename C>
-		static yes &test(typename C::foobar *);
+	std::vector<int> vec(5);
+	vec.push_back(5);
+	vec.push_back(4);
+	vec.push_back(3);
+	vec.push_back(2);
+	vec.push_back(1);
+	std::vector<int>::iterator it = vec.begin();
+	int *p = it.base();
 
-	template <typename>
-		static no &test(...);
+	*p = 150;
+	std::vector<int>::iterator ite = vec.begin();
 
-	// If the "sizeof" of the result of calling test<T>(nullptr) is equal to
-	// sizeof(yes), the first overload worked and T has a nested type named
-	// foobar.
-	static const bool value = sizeof(test<T>(nullptr)) == sizeof(yes);
-};
+	std::cout << *ite << std::endl;
+	// std::vector<int>::reverse_iterator rit;
 
-struct foo
-{
-	typedef float foobar;
-};
+	// rit = vec.begin();
 
-int main()
-{
-	std::cout << std::boolalpha;
-	std::cout << has_typedef_foobar<int>::value << std::endl; // Prints false
-	std::cout << has_typedef_foobar<foo>::value << std::endl; // Prints true
+	// rit
+	// while ()
+	// {
+	// 	/* code */
+	// }
+		
+  return 0;
 }
