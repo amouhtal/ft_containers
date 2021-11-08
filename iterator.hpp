@@ -1,12 +1,16 @@
-#ifndef ITERATOR_HPP
-#define ITERATOR_HPP
+#ifndef MY_ITERATOR_HPP
+#define MY_ITERATOR_HPP
 
 #include "vector.hpp"
 
 namespace ft
 {
+	// struct random_access_iterator_tag {};
+
+
 	template <typename T>
-	class MyIterator : public std::iterator<std::input_iterator_tag, T>
+		class MyIterator : public std::iterator<std::random_access_iterator_tag, T>
+
 	{
 	private:
 		T *p;

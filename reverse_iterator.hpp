@@ -19,14 +19,17 @@ namespace ft
 		reverse_iterator() : it(nullptr)
 		{
 		}
+
 		explicit reverse_iterator(iterator_type it)
 		{
 			this->it = it;
 		}
+
 		iterator_type base() const
 		{
 			return (it);
 		}
+
 		Iterator operator*() const
 		{
 			return (it);
@@ -42,12 +45,14 @@ namespace ft
 			it--;
 			return it;
 		}
+
 		reverse_iterator operator++(int)
 		{
 			reverse_iterator temp = *this;
 			++(*this);
 			return temp;
 		}
+
 		reverse_iterator &operator+=(difference_type __n)
 		{
 			it -= __n;
