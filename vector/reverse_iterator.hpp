@@ -1,8 +1,8 @@
 #ifndef REVERSE_ITERATOR_HPP
 #define REVERSE_ITERATOR_HPP
 
-#include "vector.hpp"
-#include "iterators_traits.hpp"
+# include "vector.hpp"
+# include "iterators_traits.hpp"
 namespace ft
 {
 
@@ -30,7 +30,7 @@ namespace ft
 			return (it);
 		}
 
-		Iterator operator*() const
+		reference operator*() const
 		{
 			return (it);
 		}
@@ -93,4 +93,5 @@ namespace ft
 		iterator_type it;
 	};
 }
+
 #endif

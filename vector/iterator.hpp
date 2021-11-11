@@ -7,37 +7,35 @@ namespace ft
 {
 	// struct random_access_iterator_tag {};
 
-
 	template <typename T>
-		class MyIterator : public std::iterator<std::random_access_iterator_tag, T>
-
+	class MyIterator : public std::iterator<std::random_access_iterator_tag, T>
 	{
 	private:
-		T *p;
+		T *ptr;
 
 	public:
-		MyIterator(int *x) : p(x) {}
-		MyIterator(const MyIterator &mit) : p(mit.p) {}
+		MyIterator(T *x) : ptr(x) {}
+		MyIterator(const MyIterator &mit) : ptr(mit.ptr) {}
 
 		T *base() const
 		{
-			return (p);
+			return (ptr);
 		}
 
 		T &operator*()
 		{
-			return *p;
+			return *ptr;
 		}
 
 		MyIterator &operator++()
 		{
-			++p;
+			++ptr;
 			return *this;
 		}
 
 		MyIterator operator+(ptrdiff_t __n)
 		{
-			p + __n;
+			ptr += __n;
 			return (*this);
 		}
 
@@ -50,19 +48,19 @@ namespace ft
 
 		MyIterator operator+=(ptrdiff_t __n)
 		{
-			p + __n;
+			ptr += __n;
 			return (*this);
 		}
 
 		MyIterator &operator-(ptrdiff_t __n)
 		{
-			return (p - __n);
+			return (ptr - __n);
 		}
 
 		MyIterator operator--()
 		{
-			p++;
-			return p;
+			ptr--;
+			return ptr;
 		}
 
 		MyIterator operator--(int)
@@ -74,29 +72,29 @@ namespace ft
 
 		MyIterator operator-=(ptrdiff_t __n)
 		{
-			p - __n;
+			ptr -= __n;
 			return (*this);
 		}
 
 		// MyIterator operator-(ptrdiff_t __n)
 		// {
-		// 	p - __n;
+		// 	ptr - __n;
 		// 	return (*this);
 		// }
 
 		T operator[](ptrdiff_t __n)
 		{
-			return (p[__n]);
+			return (ptr[__n]);
 		}
 
 		bool operator==(const MyIterator &rhs) const
 		{
-			return p == rhs.p;
+			return ptr == rhs.p;
 		}
 
 		bool operator!=(const MyIterator &rhs) const
 		{
-			return p != rhs.p;
+			return ptr != rhs.p;
 		}
 	};
 }

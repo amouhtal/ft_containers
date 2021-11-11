@@ -63,6 +63,7 @@
 		"string_view": "cpp",
 		"typeinfo": "cpp",
 		"unordered_map": "cpp",
-		"memory_resource": "cpp"
+		"memory_resource": "cpp",
+		"__memory": "cpp"
 	}
 }
