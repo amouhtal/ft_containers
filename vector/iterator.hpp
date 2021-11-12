@@ -14,6 +14,7 @@ namespace ft
 		T *ptr;
 
 	public:
+		MyIterator():ptr(nullptr){}
 		MyIterator(T *x) : ptr(x) {}
 		MyIterator(const MyIterator &mit) : ptr(mit.ptr) {}
 
@@ -94,7 +95,7 @@ namespace ft
 
 		bool operator!=(const MyIterator &rhs) const
 		{
-			return ptr != rhs.p;
+			return ptr != rhs.ptr;
 		}
 	};
 }
