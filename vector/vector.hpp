@@ -64,8 +64,8 @@ namespace ft
 
 		iterator begin()
 		{
-			iterator t(&_container[0]);
-			return t;
+			// iterator ret();
+			return iterator(&_container[0]);
 		}
 
 		const_iterator begin() const
@@ -114,39 +114,35 @@ namespace ft
 			return (_capacity);
 		}
 
-		void resize(size_type n, value_type val = value_type())
+		void resize(size_type __n, value_type val = value_type())
 		{
 			T *new_container;
 
-			if (_capacity < n)
+			if (__n >= _capacity)
 			{
+
 				_capacity *= 2;
-				if (_capacity < n)
-					_capacity = n;
+				if (_capacity == 0)
+					_capacity = 1;
+				if (__n > _capacity)
+					_capacity = __n;
 			}
-			if (_size > n)
-			{
-				_size = n;
-			}
+			if (_size > __n)
+				_size = __n;
 			new_container = _alloc.allocate(_capacity);
 			for (size_t i = 0; i < _size; i++)
 			{
 				new_container[i] = _container[i];
 			}
-			for (size_t i = _size; i < _capacity; i++)
+			for (; _size < __n; _size++)
 			{
-				new_container[i] = val;
+				new_container[_size] = val;
+
 			}
 			delete[] _container;
 			_container = new_container;
 		}
 
-		void push_back(const value_type &val)
-		{
-			resize(_size + 1);
-			_container[_size] = val;
-			_size++;
-		}
 
 		size_type capacity() const
 		{
@@ -159,18 +155,23 @@ namespace ft
 				return (true);
 		}
 
+		void push_back(const value_type &val)
+		{
+			if (_size == _capacity)
+			{
+				resize(_capacity);
+			}
+			_container[_size] = val;
+			_size++;
+		}
+
 		void reserve(size_type n)
 		{
 			T *new_container;
-			if (n > _capacity)
+			if (n >= _capacity)
 			{
-				if (_capacity < n)
-				{
-					_capacity *= 2;
-					if (_capacity < n)
-						_capacity = n;
-				}
-				new_container = _alloc.allocate(n);
+				_capacity = n;
+				new_container = _alloc.allocate(_capacity);
 				for (size_t i = 0; i < _size; i++)
 				{
 					new_container[i] = _container[i];
@@ -243,6 +244,8 @@ namespace ft
 			excep = false;
 			for (; first != last; first++)
 			{
+				if (std::string::npos == lenght)
+					break;
 				lenght++;
 			}
 			if (std::string::npos == lenght)
