@@ -11,92 +11,140 @@
 int main()
 {
 
-	{
 	ft::vector<int> vec;
 
-	vec.push_back(s);
-	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	vec.push_back(n);
-	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	vec.push_back(1);
+	vec.push_back(2);
+	vec.push_back(8);
 	vec.push_back(9);
-	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	vec.push_back(7);
-	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	vec.push_back(5);
+	vec.push_back(10);
+
+
+	ft::vector<int> vec2;
+
+	vec2.push_back(3);
+	vec2.push_back(4);
+	vec2.push_back(5);
+	vec2.push_back(6);
+	vec2.push_back(7);
+
+
+	ft::vector<int>::iterator it;
+	ft::vector<int>::iterator it1;
+
+
+	it = vec.begin();
+	it++;
+	it++;
 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
 
-	vec.push_back(s);
+	// int i = 0;
+	// while ()
+	// {
+	// 	/* code */
+	// }
+	vec.insert(it, vec2.begin(), vec2.end());
+	// vec.insert(it, 10, 3);
+
 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	vec.push_back(n);
-	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	vec.push_back(9);
-	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	vec.push_back(7);
-	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	vec.push_back(5);
-	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+
+	ft::vector<int>::iterator bg;
+	ft::vector<int>::iterator ed;
+	std::cout << "output" << std::endl;
+
+	bg = vec.begin();
+	ed = vec.end();
+	for (; bg != ed; bg++)
+	{
+		std::cout << "it: " << *bg << std::endl;
+	}
+
+	// {
+	// ft::vector<int> vec;
+
+	// vec.push_back(s);
+	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// vec.push_back(n);
+	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// vec.push_back(9);
+	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// vec.push_back(7);
+	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// vec.push_back(5);
+	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+
+	// vec.push_back(s);
+	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// vec.push_back(n);
+	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// vec.push_back(9);
+	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// vec.push_back(7);
+	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// vec.push_back(5);
+	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// // 	vec.push_back(s);
+	// // 	vec.push_back(n);
+	// // 	vec.push_back(9);
+	// // 	vec.push_back(7);
+	// // 	vec.push_back(5);
+	// // 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+
+	// // 	vec.resize(n);
+
+	// // 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+
+	// 	ft::vector<int>::iterator bg;
+	// 	ft::vector<int>::iterator ed;
+	// 	std::cout << "output" << std::endl;
+
+	// 	bg = vec.begin();
+	// 	ed = vec.end();
+	// 	for (; bg != ed; bg++)
+	// 	{
+	// 		std::cout << "it: " << *bg << std::endl;
+	// 	}
+	// }
+	// std::cout << "------------" << std::endl;
+	// {
+	// 	std::vector<int> vec;
+
 	// 	vec.push_back(s);
+	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
 	// 	vec.push_back(n);
+	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
 	// 	vec.push_back(9);
+	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
 	// 	vec.push_back(7);
+	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
 	// 	vec.push_back(5);
 	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
 
-	// 	vec.resize(n);
-
+	// 	vec.push_back(s);
 	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// 	vec.push_back(n);
+	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// 	vec.push_back(9);
+	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// 	vec.push_back(7);
+	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// 	vec.push_back(5);
+	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
+	// 	// vec.resize(n);
 
-		ft::vector<int>::iterator bg;
-		ft::vector<int>::iterator ed;
-		std::cout << "output" << std::endl;
+	// 	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
 
-		bg = vec.begin();
-		ed = vec.end();
-		for (; bg != ed; bg++)
-		{
-			std::cout << "it: " << *bg << std::endl;
-		}
-	}
-	std::cout << "------------" << std::endl;
-	{
-		std::vector<int> vec;
+	// 	std::vector<int>::iterator bg;
+	// 	std::vector<int>::iterator ed;
+	// 	std::cout << "output" << std::endl;
 
-		vec.push_back(s);
-		std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-		vec.push_back(n);
-		std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-		vec.push_back(9);
-		std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-		vec.push_back(7);
-		std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-		vec.push_back(5);
-		std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-
-		vec.push_back(s);
-		std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-		vec.push_back(n);
-		std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-		vec.push_back(9);
-		std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-		vec.push_back(7);
-		std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-		vec.push_back(5);
-		std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-		// vec.resize(n);
-
-		// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-
-		std::vector<int>::iterator bg;
-		std::vector<int>::iterator ed;
-		std::cout << "output" << std::endl;
-
-		bg = vec.begin();
-		ed = vec.end();
-		for (; bg != ed; bg++)
-		{
-			std::cout << "it: " << *bg << std::endl;
-		}
-	}
+	// 	bg = vec.begin();
+	// 	ed = vec.end();
+	// 	for (; bg != ed; bg++)
+	// 	{
+	// 		std::cout << "it: " << *bg << std::endl;
+	// 	}
+	// }
 	// ft::vector<int> vec2;
 	// vec2.push_back(25);
 	// vec2.push_back(23);

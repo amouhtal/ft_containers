@@ -137,12 +137,10 @@ namespace ft
 			for (; _size < __n; _size++)
 			{
 				new_container[_size] = val;
-
 			}
 			delete[] _container;
 			_container = new_container;
 		}
-
 
 		size_type capacity() const
 		{
@@ -163,6 +161,12 @@ namespace ft
 			}
 			_container[_size] = val;
 			_size++;
+		}
+
+		void pop_back()
+		{
+			_alloc.destroy(&_container[_size - 1]);
+			_size -= 1;
 		}
 
 		void reserve(size_type n)
@@ -207,11 +211,6 @@ namespace ft
 				throw std::out_of_range("index out of bounds");
 			else
 				return (_container[n]);
-		}
-
-		iterator insert(iterator position, const value_type &val)
-		{
-			*position = val;
 		}
 
 		reference front()
@@ -277,14 +276,104 @@ namespace ft
 		{
 		}
 
-		void insert(iterator position, size_type n, const value_type &val)
+		iterator insert(iterator position, const value_type &val)
 		{
+			value_type temp;
+			value_type temp2;
+			iterator it;
+			iterator ite;
+
+			int i = 0;
+
+			it = begin();
+
+			// if (it != end())
+			// {
+				if (_size == _capacity)
+				{
+					resize(_capacity);
+				}
+				while (it != position && it != end())
+				{
+					i++;
+					it++;
+				}
+				_size++;
+				// std::cout << it[i] << "__" << *it << std::endl;
+				temp = *it;
+				_container[i++] = val;
+				while (i < _size)
+				{
+					temp2 = _container[i];
+					_container[i++] = temp;
+
+					temp = _container[i];
+					_container[i] = temp2;
+					i++;
+				}
+			// }
+			return (it);
 		}
+
+		// void insert(iterator position, size_type n, const value_type &val)
+		// {
+		// 	int i;
+
+		// 	i = 0;
+
+		// 	while (i < n)
+		// 	{
+		// 		insert(position, val);
+		// 		position++;
+		// 		i++;
+		// 	}
+		// }
 
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last)
 		{
+			// std::cout << *position << "<->" << *first << std::endl;
+			// insert(position, *first);
+			// position++;
+			// first++;
+			// std::cout << *position << "<->" << *first << std::endl;
+			// insert(position, *first);
+			// position++;
+			// first++;
+			// std::cout << *position << "<->" << *first << std::endl;
+			// insert(position, *first);
+			// position++;
+			// first++;
+			// insert(position, *first);
+			// std::cout << *position << "<->" << *first << std::endl;
+			// position++;
+			// first++;
+			// std::cout << *position << "<->" << *first << std::endl;
+			iterator ite;
+
+			while (first != last )
+			{
+				insert(position, *first);
+				first++;
+				position++;
+			}
+			std::cout << *first << "***" << std::endl;
+				insert(position, *first);
+			// iterator it = begin();
+			// iterator et = end();
+			// et += 6;
+			// // position +=51;
+			// while (position != et)
+			// {
+			// 	// puts("here");
+			// 	position++;
+			// }
 		}
+
+		// template <class InputIterator>
+		// void insert(iterator position, InputIterator first, InputIterator last)
+		// {
+		// }
 		// void reallocate()
 		// {
 		// 	value_type *_new_container;

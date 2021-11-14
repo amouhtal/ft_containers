@@ -95,7 +95,7 @@ namespace ft
 
 		bool operator!=(const MyIterator &rhs) const
 		{
-			return ptr != rhs.ptr;
+			return (this->ptr != rhs.ptr);
 		}
 	};
 }
