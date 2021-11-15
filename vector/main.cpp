@@ -15,10 +15,18 @@ int main()
 
 	vec.push_back(1);
 	vec.push_back(2);
+
+	vec.push_back(7);
 	vec.push_back(8);
 	vec.push_back(9);
-	vec.push_back(10);
 
+
+	ft::vector<int>::iterator it;
+	ft::vector<int>::iterator it1;
+
+	it = vec.begin();
+	it++;
+	it++;
 
 	ft::vector<int> vec2;
 
@@ -26,25 +34,23 @@ int main()
 	vec2.push_back(4);
 	vec2.push_back(5);
 	vec2.push_back(6);
-	vec2.push_back(7);
 
 
-	ft::vector<int>::iterator it;
-	ft::vector<int>::iterator it1;
+	ft::vector<int>::iterator itt;
+	ft::vector<int>::iterator itt1;
 
+	itt = vec2.begin();
 
-	it = vec.begin();
-	it++;
-	it++;
-	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-
+	itt1 = vec2.end();
+	// it++;
 	// int i = 0;
 	// while ()
 	// {
 	// 	/* code */
 	// }
-	vec.insert(it, vec2.begin(), vec2.end());
-	// vec.insert(it, 10, 3);
+	// vec.insert(it, 4);
+	vec.insert(it, 4, 5);
+	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
 
 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
 

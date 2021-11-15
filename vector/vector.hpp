@@ -10,10 +10,6 @@
 
 namespace ft
 {
-	// template <typename T>
-	// class random_access_iterator : ft::iterator<ft::random_access_iterator_tag, T>
-	// {
-	// };
 	template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T *, class Reference = T &>
 	struct iterator
 	{
@@ -23,8 +19,215 @@ namespace ft
 		typedef Reference reference;
 		typedef Category iterator_category;
 	};
-	// enable_if<is_integral<type>>::type;
 
+	template <class Iterator>
+	struct iterator_traits
+	{
+		typedef typename Iterator::difference_type difference_type;
+		typedef typename Iterator::value_type value_type;
+		typedef typename Iterator::pointer pointer;
+		typedef typename Iterator::reference reference;
+		typedef typename Iterator::iterator_category iterator_category;
+	};
+
+	template <class T>
+	struct iterator_traits<T *>
+	{
+		typedef ptrdiff_t difference_type;
+		typedef T value_type;
+		typedef T *pointer;
+		typedef T &reference;
+		typedef typename std::random_access_iterator_tag iterator_category;
+	};
+
+	template <class T>
+	struct iterator_traits<const T *>
+	{
+		typedef ptrdiff_t difference_type;
+		typedef T value_type;
+		typedef const T *pointer;
+		typedef const T &reference;
+		typedef typename std::random_access_iterator_tag iterator_category;
+	};
+	template <class Iterator>
+	class reverse_iterator
+	{
+	public:
+		typedef typename iterator_traits<Iterator>::iterator_category iterator_category;
+		typedef typename iterator_traits<Iterator>::value_type value_type;
+		typedef typename iterator_traits<Iterator>::difference_type difference_type;
+		typedef typename iterator_traits<Iterator>::pointer pointer;
+		typedef typename iterator_traits<Iterator>::reference reference;
+		typedef Iterator iterator_type;
+		reverse_iterator() : it(nullptr)
+		{
+		}
+
+		explicit reverse_iterator(iterator_type it)
+		{
+			this->it = it;
+		}
+
+		iterator_type base() const
+		{
+			return (it);
+		}
+
+		reference operator*() const
+		{
+			return (it);
+		}
+
+		reverse_iterator operator+(difference_type n) const
+		{
+			return (it - n);
+		}
+
+		reverse_iterator &operator++()
+		{
+			it--;
+			return it;
+		}
+
+		reverse_iterator operator++(int)
+		{
+			reverse_iterator temp = *this;
+			++(*this);
+			return temp;
+		}
+
+		reverse_iterator &operator+=(difference_type __n)
+		{
+			it -= __n;
+			return it;
+		}
+
+		reverse_iterator operator-(difference_type __n) const
+		{
+			it + __n;
+			return *this;
+		}
+
+		reverse_iterator &operator--()
+		{
+			++it;
+			return (*this);
+		}
+
+		reverse_iterator operator--(int)
+		{
+			reverse_iterator temp = *this;
+			--(*this);
+			return temp;
+		}
+
+		reverse_iterator &operator-=(difference_type __n)
+		{
+			it += __n;
+			return it;
+		}
+
+		// reference operator[](difference_type n) const
+		// {
+		// 	return ;
+		// }
+
+	private:
+		iterator_type it;
+	};
+
+	template <typename T>
+	class MyIterator : public ft::iterator<std::random_access_iterator_tag, T>
+	{
+		typedef T *	pointer;
+		typedef typename iterator_traits<pointer>::reference reference;
+	private:
+		T *ptr;
+	public:
+		MyIterator() : ptr(nullptr) {}
+		MyIterator(T *x) : ptr(x) {}
+		MyIterator(const MyIterator &mit) : ptr(mit.ptr) {}
+
+		T *base() const
+		{
+			return (ptr);
+		}
+
+		reference operator*()
+		{
+			return *ptr;
+		}
+
+		MyIterator &operator++()
+		{
+			++ptr;
+			return *this;
+		}
+
+		MyIterator operator+(ptrdiff_t __n)
+		{
+			ptr += __n;
+			return (*this);
+		}
+
+		MyIterator operator++(int)
+		{
+			MyIterator tmp(*this);
+			operator++();
+			return tmp;
+		}
+
+		MyIterator operator+=(ptrdiff_t __n)
+		{
+			ptr += __n;
+			return (*this);
+		}
+
+		MyIterator &operator-(ptrdiff_t __n)
+		{
+			return (ptr - __n);
+		}
+
+		MyIterator operator--()
+		{
+			ptr--;
+			return ptr;
+		}
+
+		MyIterator operator--(int)
+		{
+			MyIterator tmp(*this);
+			operator--();
+			return tmp;
+		}
+
+		MyIterator operator-=(ptrdiff_t __n)
+		{
+			ptr -= __n;
+			return (*this);
+		}
+
+		// MyIterator operator-(ptrdiff_t __n)
+		// {
+		// 	ptr - __n;
+		// 	return (*this);
+		// }
+
+		T operator[](ptrdiff_t __n)
+		{
+			return (ptr[__n]);
+		}
+
+		bool operator==(const MyIterator &rhs) const
+		{
+			return ptr == rhs.ptr;
+		}
+
+		bool operator!=(const MyIterator &rhs) const
+		{
+			return (this->ptr != rhs.ptr);
+		}
+	};
 	template <typename T, class Alloc = std::allocator<T> >
 	class vector
 	{
@@ -285,90 +488,73 @@ namespace ft
 
 			int i = 0;
 
-			it = begin();
+			temp = *position;
+			it = this->begin();
 
-			// if (it != end())
-			// {
-				if (_size == _capacity)
-				{
-					resize(_capacity);
-				}
-				while (it != position && it != end())
-				{
-					i++;
-					it++;
-				}
-				_size++;
-				// std::cout << it[i] << "__" << *it << std::endl;
-				temp = *it;
-				_container[i++] = val;
-				while (i < _size)
-				{
-					temp2 = _container[i];
-					_container[i++] = temp;
+			while (it != position) //&& it != end())
+			{
+				i++;
+				it++;
+			}
 
-					temp = _container[i];
-					_container[i] = temp2;
-					i++;
-				}
+			if (_size == _capacity)
+			{
+				resize(_capacity);
+			}
+
+			it = iterator(_container + i);
+
+			_size++;
+			// std::cout << it[i] << "__" << *it << std::endl;
+			_container[i++] = val;
+			while (i < _size)
+			{
+				temp2 = _container[i];
+				_container[i++] = temp;
+
+				temp = _container[i];
+				_container[i++] = temp2;
+			}
 			// }
 			return (it);
 		}
 
-		// void insert(iterator position, size_type n, const value_type &val)
-		// {
-		// 	int i;
-
-		// 	i = 0;
-
-		// 	while (i < n)
-		// 	{
-		// 		insert(position, val);
-		// 		position++;
-		// 		i++;
-		// 	}
-		// }
-
-		template <class InputIterator>
-		void insert(iterator position, InputIterator first, InputIterator last)
+		void insert(iterator position, size_type n, const value_type &val)
 		{
-			// std::cout << *position << "<->" << *first << std::endl;
-			// insert(position, *first);
-			// position++;
-			// first++;
-			// std::cout << *position << "<->" << *first << std::endl;
-			// insert(position, *first);
-			// position++;
-			// first++;
-			// std::cout << *position << "<->" << *first << std::endl;
-			// insert(position, *first);
-			// position++;
-			// first++;
-			// insert(position, *first);
-			// std::cout << *position << "<->" << *first << std::endl;
-			// position++;
-			// first++;
-			// std::cout << *position << "<->" << *first << std::endl;
-			iterator ite;
+			int i;
 
-			while (first != last )
+			i = 0;
+
+			while (i < n)
 			{
-				insert(position, *first);
-				first++;
+				// std::cout << "--> " << *position << std::endl;
+				position = insert(position, i);
 				position++;
+				i++;
 			}
-			std::cout << *first << "***" << std::endl;
-				insert(position, *first);
-			// iterator it = begin();
-			// iterator et = end();
-			// et += 6;
-			// // position +=51;
-			// while (position != et)
-			// {
-			// 	// puts("here");
-			// 	position++;
-			// }
 		}
+
+		// template <class InputIterator>
+		// void insert(iterator position, InputIterator first, InputIterator last)
+		// {
+
+		// 	while (first != last)
+		// 	{
+		// 		position = insert(position, *first);
+		// 		position++;
+		// 		first++;
+		// 	}
+		// 	// insert(position, *first);
+		// 	// iterator it = begin();
+		// 	// iterator et = end();
+		// 	// et += 6;
+		// 	// // position +=51;
+		// 	// while (position != et)
+		// 	// {
+		// 	// 	// puts("here");
+		// 	// 	position++;
+		// 	// }
+		// }
 
 		// template <class InputIterator>
 		// void insert(iterator position, InputIterator first, InputIterator last)
