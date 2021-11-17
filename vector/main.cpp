@@ -15,18 +15,20 @@ int main()
 
 	vec.push_back(1);
 	vec.push_back(2);
-
 	vec.push_back(7);
 	vec.push_back(8);
 	vec.push_back(9);
-
+	vec.push_back(10);
+	vec.push_back(11);
 
 	ft::vector<int>::iterator it;
 	ft::vector<int>::iterator it1;
 
 	it = vec.begin();
+	it1 = vec.end();
+
 	it++;
-	it++;
+	it1 -= 2;
 
 	ft::vector<int> vec2;
 
@@ -42,27 +44,32 @@ int main()
 	itt = vec2.begin();
 
 	itt1 = vec2.end();
-	// it++;
+	// itt1--;
 	// int i = 0;
 	// while ()
 	// {
 	// 	/* code */
 	// }
 	// vec.insert(it, 4);
-	vec.insert(it, 4, 5);
+	vec.erase(it, it1);
 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
 
 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
 
 	ft::vector<int>::iterator bg;
 	ft::vector<int>::iterator ed;
+	ft::vector<int>::iterator print;
+
 	std::cout << "output" << std::endl;
 
 	bg = vec.begin();
+	print = vec.begin();
 	ed = vec.end();
+	int i = 0;
 	for (; bg != ed; bg++)
 	{
-		std::cout << "it: " << *bg << std::endl;
+		std::cout << *bg << std::endl;
+		i++;
 	}
 
 	// {

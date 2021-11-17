@@ -139,16 +139,18 @@ namespace ft
 	template <typename T>
 	class MyIterator : public ft::iterator<std::random_access_iterator_tag, T>
 	{
-		typedef T *	pointer;
+		typedef T *pointer;
 		typedef typename iterator_traits<pointer>::reference reference;
+		// typedef typename  iterator<std::random_access_iterator_tag, T>::reference reference;
 	private:
-		T *ptr;
+		pointer ptr;
+
 	public:
 		MyIterator() : ptr(nullptr) {}
 		MyIterator(T *x) : ptr(x) {}
 		MyIterator(const MyIterator &mit) : ptr(mit.ptr) {}
 
-		T *base() const
+		pointer base() const
 		{
 			return (ptr);
 		}
@@ -213,7 +215,7 @@ namespace ft
 		// 	return (*this);
 		// }
 
-		T operator[](ptrdiff_t __n)
+		reference operator[](ptrdiff_t __n)
 		{
 			return (ptr[__n]);
 		}
@@ -375,7 +377,7 @@ namespace ft
 		void reserve(size_type n)
 		{
 			T *new_container;
-			if (n >= _capacity)
+			if (n > _capacity)
 			{
 				_capacity = n;
 				new_container = _alloc.allocate(_capacity);
@@ -528,34 +530,70 @@ namespace ft
 			while (i < n)
 			{
 				// std::cout << "--> " << *position << std::endl;
-				position = insert(position, i);
+				position = insert(position, val);
 				position++;
 				i++;
 			}
 		}
 
-		// template <class InputIterator>
-		// void insert(iterator position, InputIterator first, InputIterator last)
-		// {
+		template <class InputIterator>
+		void insert(iterator position, InputIterator first, InputIterator last)
+		{
 
-		// 	while (first != last)
-		// 	{
-		// 		position = insert(position, *first);
-		// 		position++;
-		// 		first++;
-		// 	}
-		// 	// insert(position, *first);
-		// 	// iterator it = begin();
-		// 	// iterator et = end();
-		// 	// et += 6;
-		// 	// // position +=51;
-		// 	// while (position != et)
-		// 	// {
-		// 	// 	// puts("here");
-		// 	// 	position++;
-		// 	// }
-		// }
+			while (first != last)
+			{
+				position = insert(position, *first);
+				position++;
+				first++;
+			}
+			// insert(position, *first);
+			// iterator it = begin();
+			// iterator et = end();
+			// et += 6;
+			// // position +=51;
+			// while (position != et)
+			// {
+			// 	// puts("here");
+			// 	position++;
+			// }
+		}
 
+		iterator erase(iterator position)
+		{
+			int i;
+
+			i = 0;
+			iterator it;
+			T temp;
+			it = this->begin();
+
+			while (it != position)
+			{
+				it++;
+				i++;
+			}
+			while (i < _size)
+			{
+				temp = _container[i + 1];
+				_container[i] = temp;
+				i++;
+			}
+			_alloc.destroy(&_container[_size]);
+			_size--;
+			return (it);
+		}
+
+		iterator erase(iterator first, iterator last)
+		{
+			iterator it;
+			it = begin();
+			while(first != last)
+			{
+				first = erase(first);
+				// first++;
+			}
+			return it;
+		}
 		// template <class InputIterator>
 		// void insert(iterator position, InputIterator first, InputIterator last)
 		// {
