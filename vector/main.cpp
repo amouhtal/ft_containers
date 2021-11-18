@@ -10,205 +10,23 @@
 
 int main()
 {
+	std::vector<int> first;
+	std::vector<int> second;
+	std::vector<int> third;
 
-	ft::vector<int> vec;
+	first.assign(7, 100); // 7 ints with a value of 100
 
-	vec.push_back(1);
-	vec.push_back(2);
-	vec.push_back(7);
-	vec.push_back(8);
-	vec.push_back(9);
-	vec.push_back(10);
-	vec.push_back(11);
+	std::vector<int>::iterator it;
+	it = first.begin() + 1;
 
-	ft::vector<int>::iterator it;
-	ft::vector<int>::iterator it1;
+	second.assign(it, first.end() - 1); // the 5 central values of first
 
-	it = vec.begin();
-	it1 = vec.end();
+	int myints[] = {1776, 7, 4};
+	third.assign(myints, myints + 3); // assigning from array.
 
-	it++;
-	it1 -= 2;
-
-	ft::vector<int> vec2;
-
-	vec2.push_back(3);
-	vec2.push_back(4);
-	vec2.push_back(5);
-	vec2.push_back(6);
-
-
-	ft::vector<int>::iterator itt;
-	ft::vector<int>::iterator itt1;
-
-	itt = vec2.begin();
-
-	itt1 = vec2.end();
-	// itt1--;
-	// int i = 0;
-	// while ()
-	// {
-	// 	/* code */
-	// }
-	// vec.insert(it, 4);
-	vec.erase(it, it1);
-	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-
-	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-
-	ft::vector<int>::iterator bg;
-	ft::vector<int>::iterator ed;
-	ft::vector<int>::iterator print;
-
-	std::cout << "output" << std::endl;
-
-	bg = vec.begin();
-	print = vec.begin();
-	ed = vec.end();
-	int i = 0;
-	for (; bg != ed; bg++)
-	{
-		std::cout << *bg << std::endl;
-		i++;
-	}
-
-	// {
-	// ft::vector<int> vec;
-
-	// vec.push_back(s);
-	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// vec.push_back(n);
-	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// vec.push_back(9);
-	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// vec.push_back(7);
-	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// vec.push_back(5);
-	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-
-	// vec.push_back(s);
-	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// vec.push_back(n);
-	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// vec.push_back(9);
-	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// vec.push_back(7);
-	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// vec.push_back(5);
-	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// // 	vec.push_back(s);
-	// // 	vec.push_back(n);
-	// // 	vec.push_back(9);
-	// // 	vec.push_back(7);
-	// // 	vec.push_back(5);
-	// // 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-
-	// // 	vec.resize(n);
-
-	// // 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-
-	// 	ft::vector<int>::iterator bg;
-	// 	ft::vector<int>::iterator ed;
-	// 	std::cout << "output" << std::endl;
-
-	// 	bg = vec.begin();
-	// 	ed = vec.end();
-	// 	for (; bg != ed; bg++)
-	// 	{
-	// 		std::cout << "it: " << *bg << std::endl;
-	// 	}
-	// }
-	// std::cout << "------------" << std::endl;
-	// {
-	// 	std::vector<int> vec;
-
-	// 	vec.push_back(s);
-	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// 	vec.push_back(n);
-	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// 	vec.push_back(9);
-	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// 	vec.push_back(7);
-	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// 	vec.push_back(5);
-	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-
-	// 	vec.push_back(s);
-	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// 	vec.push_back(n);
-	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// 	vec.push_back(9);
-	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// 	vec.push_back(7);
-	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// 	vec.push_back(5);
-	// 	std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// 	// vec.resize(n);
-
-	// 	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-
-	// 	std::vector<int>::iterator bg;
-	// 	std::vector<int>::iterator ed;
-	// 	std::cout << "output" << std::endl;
-
-	// 	bg = vec.begin();
-	// 	ed = vec.end();
-	// 	for (; bg != ed; bg++)
-	// 	{
-	// 		std::cout << "it: " << *bg << std::endl;
-	// 	}
-	// }
-	// ft::vector<int> vec2;
-	// vec2.push_back(25);
-	// vec2.push_back(23);
-	// vec2.push_back(24);
-	// vec2.push_back(28);
-	// vec2.push_back(20);
-
-	// bg = vec2.begin();
-	// ed = vec2.end();
-	// try
-	// {
-	// 	vec.assign(ed, bg);
-	// 	/* code */
-	// }
-	// catch ( const char *str)
-	// {
-	// 	std::cerr << str << '\n';
-	// }
-
-	// ft::vector<int>::iterator it;
-
-	// // std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-	// // vec.push_back(6);
-	// std::cout << vec[4] << std::endl;
-
-	// std::cout << "_capacity : " << vec[3] << " _size : " << vec.size() << std::endl;
-	// vec.reserve(5);
-
-	/*
-	1 = capacity : 2 _size : 1
-	3 =  _capacity : 4 _size : 3
-*/
-
-	/*
-	ft::vector<int>::iterator it;
-	const int i = 0;
-	vec.at(i) = 99;
-	int val = vec.at(i);
-	val = vec.back();
-	// it = vec.at(2);
-	// for (it = vec.begin(); it!= vec.end(); it++)
-	// {
-	std::cout << "it: " << val << std::endl;
-	// i++;
-	// }
-	// std::cout << "_capacity : " << vec.capacity() << " _size : " << vec.size() << std::endl;
-
-	// ft::vector<int>::iterator it = vec.begin();
-	// std::vector<int>::iterator ite = vec.end();
-
-	// std::cout << *it << std::endl;
-*/
+	std::cout << "Size of first: " << int(first.size()) << '\n';
+	std::cout << "Size of second: " << int(second.size()) << '\n';
+	std::cout << "Size of third: " << int(third.size()) << '\n';
 	return 0;
+
 }
