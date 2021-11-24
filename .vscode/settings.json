@@ -64,6 +64,11 @@
 		"typeinfo": "cpp",
 		"unordered_map": "cpp",
 		"memory_resource": "cpp",
-		"__memory": "cpp"
+		"__memory": "cpp",
+		"deque": "cpp",
+		"fstream": "cpp",
+		"list": "cpp",
+		"queue": "cpp",
+		"stack": "cpp"
 	}
 }
