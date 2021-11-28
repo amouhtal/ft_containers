@@ -73,6 +73,10 @@ namespace ft
 			this->it = it;
 		}
 
+		template <class Iter>
+		reverse_iterator(const reverse_iterator<Iter> &rev_it) : it(rev_it.begin()){};
+
+
 		iterator_type base() const
 		{
 			return (it);
@@ -87,7 +91,7 @@ namespace ft
 
 		reverse_iterator operator+(difference_type n) const
 		{
-			return (it - n);
+			return reverse_iterator(base() - n);
 		}
 
 		reverse_iterator &operator++()
@@ -107,13 +111,12 @@ namespace ft
 		reverse_iterator &operator+=(difference_type __n)
 		{
 			it -= __n;
-			return it;
+			return *this;
 		}
 
 		reverse_iterator operator-(difference_type __n) const
 		{
-			it += __n;
-			return *this;
+			return reverse_iterator(base() + __n);
 		}
 
 		reverse_iterator &operator--()
@@ -132,7 +135,7 @@ namespace ft
 		reverse_iterator &operator-=(difference_type __n)
 		{
 			it += __n;
-			return it;
+			return *this;
 		}
 
 		// bool opearator != (const reverse_iterator &other)
@@ -140,10 +143,10 @@ namespace ft
 		// 	return (this->it != other.it);
 		// }
 
-		// bool operator!=(const reverse_iterator &rhs)
-		// {
-		// 	return (this->it != rhs.it);
-		// }
+		bool operator!=(const reverse_iterator &rhs)
+		{
+			return (this->it != rhs.it);
+		}
 		// reference operator[](difference_type n) const
 		// {
 		// 	return ;
@@ -151,10 +154,10 @@ namespace ft
 	};
 
 	template <typename T>
-	class MyIterator : public ft::iterator<std::random_access_iterator_tag, T>
+	class MyIterator : public ft::iterator<std::random_access_iterator_tag, typename iterator_traits<T>::value_type>
 	{
 	public:
-		typedef T *pointer;
+		typedef T pointer;
 		typedef typename iterator_traits<pointer>::iterator_category iterator_category;
 		typedef typename iterator_traits<pointer>::value_type value_type;
 		typedef typename iterator_traits<pointer>::difference_type difference_type;
@@ -165,8 +168,10 @@ namespace ft
 
 	public:
 		MyIterator() : ptr(nullptr) {}
-		MyIterator(T *x) : ptr(x) {}
-		MyIterator(const MyIterator &mit) : ptr(mit.ptr) {}
+		MyIterator(pointer it) : ptr(it) {}
+		// MyIterator(const MyIterator &mit) : ptr(mit.ptr) {}
+		template <typename Iter>
+		MyIterator(const MyIterator<Iter> &mit) : ptr(mit.base()) {}
 
 		pointer base() const
 		{
@@ -249,6 +254,7 @@ namespace ft
 			return (this->ptr != rhs.ptr);
 		}
 	};
+
 	template <typename T, class Alloc = std::allocator<T> >
 	class vector
 	{
@@ -261,8 +267,8 @@ namespace ft
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
 		typedef size_t size_type;
-		typedef ft::MyIterator<value_type> iterator;
-		typedef ft::MyIterator<const value_type> const_iterator;
+		typedef ft::MyIterator<pointer> iterator;
+		typedef ft::MyIterator<const_pointer> const_iterator;
 		typedef ft::reverse_iterator<iterator> reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
@@ -299,7 +305,6 @@ namespace ft
 				_alloc.construct(bg, *first++);
 				bg++;
 			}
-			
 		}
 
 		vector(const vector &x)
@@ -312,16 +317,16 @@ namespace ft
 			this->insert(this->begin(), x.begin(), x.end());
 		}
 
+		const_iterator begin() const
+		{
+			// iterator ret(&_container[0]);
+			return const_iterator(_container);
+		}
+
 		iterator begin()
 		{
 			// iterator ret(&_container[0]);
 			return iterator(&_container[0]);
-		}
-
-		const_iterator begin() const
-		{
-			// iterator ret(&_container[0]);
-			return const_iterator(&_container[0]);
 		}
 
 		iterator end()
@@ -587,12 +592,13 @@ namespace ft
 		}
 
 		template <class InputIterator>
-		void insert(iterator position, InputIterator first, InputIterator last)
+		void insert(iterator position, InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value>::type * = nullptr)
 		{
-
+			T val;
 			while (first != last)
 			{
-				position = insert(position, *first);
+				val = *first;
+				position = insert(position, val);
 				position++;
 				first++;
 			}
@@ -600,7 +606,7 @@ namespace ft
 
 		iterator erase(iterator position)
 		{
-			int i;
+			size_t i;
 
 			i = 0;
 			iterator it;
@@ -669,7 +675,7 @@ namespace ft
 
 		void clear()
 		{
-			int i;
+			size_t i;
 
 			i = 0;
 
@@ -683,7 +689,67 @@ namespace ft
 		}
 		~vector(){};
 		vector &operator=(const vector &rhs);
+		// bool operator==(const vector &rhs)
+		// {
+		// 	return (*this == rhs);
+		// }
+		// bool operator!=(const vector &rhs)
+		// {
+		// 	return (*this != rhs);
+		// }
+		// bool operator>(const vector &rhs)
+		// {
+		// 	return (*this > rhs);
+		// }
+		// bool operator<(const vector &rhs)
+		// {
+		// 	return (*this > rhs);
+		// }
 	};
+	template <class T, class Alloc>
+	bool operator==(const vector<T, Alloc> &lhs,
+					const vector<T, Alloc> &rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return (false);
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+	}
+
+	template <class T, class Alloc>
+	bool operator!=(const vector<T, Alloc> &lhs,
+					const vector<T, Alloc> &rhs)
+	{
+		return (!(lhs == rhs));
+		
+	}
+
+	template <class T, class Alloc>
+	bool operator<(const vector<T, Alloc> &lhs,
+				   const vector<T, Alloc> &rhs)
+	{
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template <class T, class Alloc>
+	bool operator<=(const vector<T, Alloc> &lhs,
+					const vector<T, Alloc> &rhs)
+	{
+		return (!(rhs < lhs));
+	}
+
+	template <class T, class Alloc>
+	bool operator>(const vector<T, Alloc> &lhs,
+				   const vector<T, Alloc> &rhs)
+	{
+		return (!(lhs < rhs));
+	}
+
+	template <class T, class Alloc>
+	bool operator>=(const vector<T, Alloc> &lhs,
+					const vector<T, Alloc> &rhs)
+	{
+		return (!(lhs <= rhs));
+	}
 }
 
 #endif
