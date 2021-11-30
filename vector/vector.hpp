@@ -74,8 +74,7 @@ namespace ft
 		}
 
 		template <class Iter>
-		reverse_iterator(const reverse_iterator<Iter> &rev_it) : it(rev_it.begin()){};
-
+		reverse_iterator(const reverse_iterator<Iter> &rev_it) : it(rev_it.base()){};
 
 		iterator_type base() const
 		{
@@ -138,7 +137,7 @@ namespace ft
 			return *this;
 		}
 
-		// bool opearator != (const reverse_iterator &other)
+				// bool opearator != (const reverse_iterator &other)
 		// {
 		// 	return (this->it != other.it);
 		// }
@@ -147,10 +146,11 @@ namespace ft
 		{
 			return (this->it != rhs.it);
 		}
-		// reference operator[](difference_type n) const
-		// {
-		// 	return ;
-		// }
+
+		reference operator[](difference_type n) const
+		{
+			return *(*this + n);
+		}
 	};
 
 	template <typename T>
@@ -720,7 +720,6 @@ namespace ft
 					const vector<T, Alloc> &rhs)
 	{
 		return (!(lhs == rhs));
-		
 	}
 
 	template <class T, class Alloc>

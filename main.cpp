@@ -1,6 +1,7 @@
 #include <iostream>
 #include "vector/vector.hpp"
 #include <vector>
+#include <utility>
 using namespace std;
 
 class Node
@@ -51,7 +52,7 @@ int height(Node *root)
 {
 	if (root == NULL)
 		return 0;
-	return (root->height) ;
+	return (root->height);
 }
 
 Node *right_rotate(Node *y)
@@ -88,10 +89,10 @@ Node *left_rotate(Node *x)
 	return y;
 }
 
-
-int getBalanceFactor(Node *N) {
-  if (N == NULL)
-    return 0;
+int getBalanceFactor(Node *N)
+{
+	if (N == NULL)
+		return 0;
 	return (height(N->left) - height(N->right));
 }
 
@@ -107,51 +108,54 @@ Node *insertNode(Node *root, int key)
 	else
 		return root;
 
-	root->height = max(height(root->left),  height(root->right)) + 1;
+	root->height = max(height(root->left), height(root->right)) + 1;
 	int bf = getBalanceFactor(root);
-	
-	if (bf > 1) {
-    if (key < root->left->key) {
-      return right_rotate(root);
-    } else if (key > root->left->key) {
-      root->left = left_rotate(root->left);
-      return right_rotate(root);
-    }
-  }
-  if (bf < -1) {
-    if (key > root->right->key) {
-      return left_rotate(root);
-    } else if (key < root->right->key) {
-      root->right = right_rotate(root->right);
-      return left_rotate(root);
-    }
-  }
+
+	if (bf > 1)
+	{
+		if (key < root->left->key)
+		{
+			return right_rotate(root);
+		}
+		else if (key > root->left->key)
+		{
+			root->left = left_rotate(root->left);
+			return right_rotate(root);
+		}
+	}
+	if (bf < -1)
+	{
+		if (key > root->right->key)
+		{
+			return left_rotate(root);
+		}
+		else if (key < root->right->key)
+		{
+			root->right = right_rotate(root->right);
+			return left_rotate(root);
+		}
+	}
 	return root;
 }
 
+int main()
+{
+	  ft::vector<int> v;
+  v.resize(6);
+    for (ft::pair<size_t, ft::vector<int>::const_reverse_iterator> i(0, v.rbegin()); i.first < v.size(); ++i.first)
+        std::cout << i.second[i.first] << " | ";
+	// std::pair<std::string, double> product1;				   // default constructor
+	// std::pair<std::string, double> product2("tomatoes", 2.30); // value init
+	// std::pair<std::string, double> product3(product2);		   // copy constructor
 
-int main () {
-	
-	ft::vector<int> vec;
+	// product1 = std::make_pair(std::string("lightbulbs"), 0.99); // using make_pair (move)
 
-	vec.push_back(10);
-	vec.push_back(4);
-	vec.push_back(9);
-	vec.push_back(3);
-	vec.push_back(2);
-
-	ft::vector<int> vec2;
-
-	vec2.push_back(10);
-	vec2.push_back(6);
-	vec2.push_back(9);
-	vec2.push_back(3);
-	vec2.push_back(2);
-
-
-	if (vec < vec2)
-		std::cout << "Yes\n";
-	else
-		std::cout << "No\n";
-  return 0;
+	// product2.first = "shoes"; // the type of first is string
+	// product2.second = 39.90;  // the type of second is double
+    // for (std::pair<size_t, typename T::const_reverse_iterator> i(0, cont.rbegin()); i.first < cont.size(); ++i.first)
+    //     std::cout << i.second[i.first] << " | ";
+	// std::cout << "The price of " << product1.first << " is $" << product1.second << '\n';
+	// std::cout << "The price of " << product2.first << " is $" << product2.second << '\n';
+	// std::cout << "The price of " << product3.first << " is $" << product3.second << '\n';
+	return 0;
 }
