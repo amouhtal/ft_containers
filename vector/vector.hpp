@@ -49,6 +49,7 @@ namespace ft
 		typedef const T &reference;
 		typedef typename std::random_access_iterator_tag iterator_category;
 	};
+	
 	template <class Iterator>
 	class reverse_iterator
 	{
@@ -137,7 +138,7 @@ namespace ft
 			return *this;
 		}
 
-				// bool opearator != (const reverse_iterator &other)
+		// bool opearator != (const reverse_iterator &other)
 		// {
 		// 	return (this->it != other.it);
 		// }
@@ -688,7 +689,14 @@ namespace ft
 			_size = 0;
 		}
 		~vector(){};
-		vector &operator=(const vector &rhs);
+		vector &operator=(const vector &rhs)
+		{
+			_alloc = rhs._alloc;
+			_container = rhs._container;
+			_size = rhs._size;
+			_capacity = rhs._capacity;
+			return (*this);
+		}
 		// bool operator==(const vector &rhs)
 		// {
 		// 	return (*this == rhs);
