@@ -3,32 +3,7 @@
 namespace ft
 {
 
-	template <typename K, typename T, typename Compare = std::less<K> >
-	class MapKeyCompare : std::binary_function<std::pair<K, T>, std::pair<K, T>, bool>
-	{
-	public:
-		typedef typename std::pair<K, T> value_type;
 
-	private:
-		Compare comp;
-
-	public:
-		MapKeyCompare(Compare const &comp = Compare()) : comp(comp) {}
-		virtual ~MapKeyCompare() {}
-
-		bool operator()(const value_type &a, const value_type &b) const
-		{
-			return (comp(a.first, b.first));
-		}
-		bool operator()(const value_type &a, const K &b) const
-		{
-			return (comp(a.first, b));
-		}
-		bool operator()(const K &a, const value_type &b) const
-		{
-			return (comp(a, b.first));
-		}
-	};
 
 	template <typename T>
 	class Node
@@ -58,18 +33,42 @@ namespace ft
 
 	};
 
-	template <class T, typename Comp>
+	template <class T, class Comp>
 	class Avl
 	{
-	private:
+	public:
 		Node<T> *ptr;
 		Comp comp;
 
 	public:
-		Avl() : ptr(NULL){};
+		Avl(){};
+		Avl(Comp &p) : ptr(nullptr) , comp(p) {};
 
 		Avl(Node<T> &p) : ptr(&p){};
+		T	&get_data()
+		{
+			return (ptr->pair);
+		}
 
+		Avl &operator++()
+		{
+			if (ptr->right) {
+			ptr = ptr->right;
+			while (ptr->left) {
+				ptr = ptr->left;
+			}
+		} else {
+			Node<T> y = ptr->parent;
+			while (ptr == y->right) {
+				ptr = y;
+				y = y->parent;
+			}
+			if (ptr->right != y) {
+				ptr = y;
+			}
+		}
+			return (*this);
+		}
 		void printTree(Node<T> *ptr, std::string indent, bool last)
 		{
 			if (ptr != nullptr)
@@ -198,7 +197,6 @@ namespace ft
 		void insert(T pair)
 		{
 			ptr = insertNode(ptr, pair);
-			printTree(ptr, "", true);
 		}
 
 		Node<T> *nodeWithMimumValue(Node<T> *node)

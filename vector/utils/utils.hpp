@@ -68,7 +68,7 @@ namespace ft
 		{
 			if (this == &rhs)
 				return *this;
-			this->second = rhs.second;
+			this->first = rhs.first;
 			this->second = rhs.second;
 			return *this;
 		}

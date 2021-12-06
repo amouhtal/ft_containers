@@ -19,28 +19,34 @@ namespace ft
 	// 	typedef  typename iterator_traits<Iterator>::reference reference;
 	// };
 
-	template <class pair>
+	template <class pair , typename comp>
 	class MapIterator
 	{
 	public:
-		typedef Node<pair> tree;
+		typedef Avl<pair, comp> tree;
+		typedef MapIterator<pair, comp> iterator;
 
 	private:
-		Node<pair> *_node;
+		tree	_node;
 
 	public:
-		MapIterator() : _node(nullptr) {}
+		MapIterator() {}
 		MapIterator(tree const &node) : _node(node) {}
-		MapIterator(MapIterator<pair> &MapIterator) : _node(MapIterator._node) {}
+		MapIterator(iterator &MapIterator) : _node(MapIterator._node) {}
 
-		pair &operator->()
+		pair *operator->() 
 		{
-			return (_node->pair);
+			return &(_node.get_data());
 		}
 
-		MapIterator &operator=(MapIterator const &rhs)
+		iterator &operator=(iterator const &rhs)
 		{
 			this->_node = rhs._node;
+			return (*this);
+		}
+		iterator &operator++()
+		{
+			++_node;
 			return (*this);
 		}
 	};
@@ -51,31 +57,92 @@ namespace ft
 	public:
 		typedef Key key_type;
 		typedef T mapped_type;
-		typedef std::allocator<ft::pair<const Key, T> > value_type;
+
+		typedef ft::pair<key_type, mapped_type> value_type;
 		typedef Compare key_compare;
-		// typedef typename value_compare;
 		typedef Alloc allocator_type;
 		typedef typename allocator_type::reference reference;
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		typedef MapIterator<value_type> iterator;
 		// typedef map_reverse_iterator<iterator> const_iterator;
 		// typedef map_reverse_iterator<const_iterator> map_reverse_iterator;
 		// typedef const_reverse_iterator const_reverse_iterator;
 		typedef typename iterator_traits<pointer>::difference_type difference_type;
 		typedef size_t size_type;
-		typedef Avl<value_type, Compare> Avl_algo;
+
+		class MapKeyCompare : public std::binary_function<ft::pair<key_type, mapped_type>, value_type, bool>
+		{
+			friend class map;
+
+		protected:
+		// typedef Compare value_compare;
+			key_compare _comp;
+			explicit MapKeyCompare(key_compare comp) : _comp(comp) {}
+		public:
+			MapKeyCompare(){};
+			virtual ~MapKeyCompare() {}
+
+			bool operator()(const value_type &a, const value_type &b) const
+			{
+				return (_comp(a.first, b.first));
+			}
+			bool operator()(const value_type &a, const key_type &b) const
+			{
+				return (_comp(a.first, b));
+			}
+			bool operator()(const key_type &a, const value_type &b) const
+			{
+				return (_comp(a, b.first));
+			}
+		};
+
+		typedef MapIterator<value_type, MapKeyCompare> iterator;
+		typedef Avl<value_type, MapKeyCompare> Avl_algo;
 
 	private:
-		Node< pair > *_node;
+		MapKeyCompare m_comp;
+		allocator_type m_allocator;
 		Avl_algo _avl;
 
 	public:
+		// explicit map(const key_compare &comp = key_compare(),
+		// 			 const allocator_type &alloc = allocator_type())
+		// 	: m_comp(comp), m_allocator(alloc),
+		// 	  _avl(nullptr)
+		// {
+		// }
+
+		explicit map (const key_compare& comp = key_compare(),
+              const allocator_type& alloc = allocator_type())
+			{
+				// Avl_algo tmp(key_compare);
+
+				// _avl = tmp;
+			}
 		pair<iterator, bool> insert(const value_type &val)
 		{
-			_node = _avl.insert(value_type);
+			_avl.insert(val);
+			pair<iterator,bool> p;
+			return (p);
 		}
+
+		iterator begin()
+		{
+			iterator it(_avl);
+
+			return(it);
+		}
+		// iterator insert(iterator position, const value_type &val)
+		// {
+
+		// }
+
+		// template <class InputIterator>
+		// void insert(InputIterator first, InputIterator last)
+		// {
+
+		// }
 	};
 }
 

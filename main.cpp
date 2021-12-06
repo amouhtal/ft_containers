@@ -14,7 +14,12 @@ int main()
 	ft::map<int, int>::iterator it;
 
 
-	ma.insert(std::pair<int, int>(2, 6));
+	ma.insert(ft::pair<int, int>(2, 6));
+	ma.insert(ft::pair<int, int>(3, 6));
+	it = ma.begin();
+	++it;
+	
+	std::cout << it->first ;
 	// ma[4] = 150;
 	// ma[2] = 69;
 	// ma[3] = 38;
