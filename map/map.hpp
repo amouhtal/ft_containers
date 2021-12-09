@@ -19,35 +19,66 @@ namespace ft
 	// 	typedef  typename iterator_traits<Iterator>::reference reference;
 	// };
 
-	template <class pair , typename comp>
+	template <class pair, typename comp>
 	class MapIterator
 	{
 	public:
-		typedef Avl<pair, comp> tree;
+		
+		typedef Avl<pair, comp> Avl;
 		typedef MapIterator<pair, comp> iterator;
+		typedef Node<pair> Node;
 
 	private:
-		tree	_node;
+		Node _tree;
 
 	public:
-		MapIterator() {}
-		MapIterator(tree const &node) : _node(node) {}
-		MapIterator(iterator &MapIterator) : _node(MapIterator._node) {}
+		MapIterator():_tree() {}
+		MapIterator(Node  const &node) : _tree(node) {}
+		MapIterator(iterator &MapIterator) : _tree(MapIterator._tree) {}
 
-		pair *operator->() 
+		pair *operator->()
 		{
-			return &(_node.get_data());
+			return &(_tree.pair);
 		}
 
 		iterator &operator=(iterator const &rhs)
 		{
-			this->_node = rhs._node;
+			this->_tree = rhs._tree;
 			return (*this);
 		}
+
 		iterator &operator++()
 		{
-			++_node;
+			if (_tree.right)
+			{
+				_tree = _tree.right;
+				while (_tree.left)
+				{
+					_tree = _tree.left;
+				}
+			}
+			else
+			{
+
+				Node y = _tree.parent;
+				while (_tree == y.right)
+				{
+					_tree = y;
+					y = y.parent;
+				}
+				if (_tree.right != y)
+				{
+					_tree = y;
+				}
+			}
 			return (*this);
+		}
+
+		iterator operator++(int)
+		{
+			iterator temp = *this;
+			++(*this);
+			return temp;
 		}
 	};
 
@@ -59,6 +90,8 @@ namespace ft
 		typedef T mapped_type;
 
 		typedef ft::pair<key_type, mapped_type> value_type;
+		typedef ft::pair<const key_type, const mapped_type> const_value_type;
+
 		typedef Compare key_compare;
 		typedef Alloc allocator_type;
 		typedef typename allocator_type::reference reference;
@@ -76,9 +109,10 @@ namespace ft
 			friend class map;
 
 		protected:
-		// typedef Compare value_compare;
+			// typedef Compare value_compare;
 			key_compare _comp;
 			explicit MapKeyCompare(key_compare comp) : _comp(comp) {}
+
 		public:
 			MapKeyCompare(){};
 			virtual ~MapKeyCompare() {}
@@ -98,45 +132,91 @@ namespace ft
 		};
 
 		typedef MapIterator<value_type, MapKeyCompare> iterator;
+		typedef MapIterator<const_pointer, MapKeyCompare> const_iterator;
+
 		typedef Avl<value_type, MapKeyCompare> Avl_algo;
+		typedef typename Avl<value_type, MapKeyCompare>::mynode Node;
 
 	private:
 		MapKeyCompare m_comp;
 		allocator_type m_allocator;
 		Avl_algo _avl;
+		Node *_tree;
 
 	public:
-		// explicit map(const key_compare &comp = key_compare(),
-		// 			 const allocator_type &alloc = allocator_type())
-		// 	: m_comp(comp), m_allocator(alloc),
-		// 	  _avl(nullptr)
-		// {
-		// }
+	
 
-		explicit map (const key_compare& comp = key_compare(),
-              const allocator_type& alloc = allocator_type())
-			{
-				// Avl_algo tmp(key_compare);
-
-				// _avl = tmp;
-			}
-		pair<iterator, bool> insert(const value_type &val)
+		explicit map(const key_compare &comp = key_compare(),
+					 const allocator_type &alloc = allocator_type()) : m_comp(comp), m_allocator(alloc), _tree(nullptr)
 		{
-			_avl.insert(val);
-			pair<iterator,bool> p;
-			return (p);
+
 		}
+
 
 		iterator begin()
 		{
-			iterator it(_avl);
-
-			return(it);
+			iterator it(_avl.most_left(_tree));
+			return (it);
 		}
-		// iterator insert(iterator position, const value_type &val)
-		// {
 
+		iterator end()
+		{
+			Node it(_avl.most_right());
+			return (it);
+		}
+
+		pair<iterator, bool> insert(const value_type &val)
+		{
+			bool bl = false;
+
+			pair<iterator, bool> p;
+
+			iterator ret(_avl.search_by_key(val, bl, _tree));
+			Node *tmp = _avl.newNode(val);
+			iterator ret1(*tmp);
+
+			if(bl == true)
+			{
+				p.first = ret;
+				p.second = false;
+				return p;
+			}
+			else
+			{
+				p.second = true;
+				p.first = ret1;
+			}
+			_tree = _avl.insertNode(_tree, val);
+			return (p);
+		}
+
+		iterator insert (iterator position, const value_type &)
+		{
+			
+		}
+
+		// const_iterator end() const
+		// {
+		// 	const_iterator it(_avl.most_right());
+		// 	return (it);
 		// }
+
+		// const_iterator begin() const
+		// {
+		// 	const_iterator it(_avl.most_left());
+
+		// 	return (it);
+		// }
+
+		iterator insert(iterator position, const value_type &val)
+		{
+			iterator map_it(_tree);
+
+			if (map_it->first > position->first)
+			{
+				map_it = map_it++;
+			}
+		}
 
 		// template <class InputIterator>
 		// void insert(InputIterator first, InputIterator last)

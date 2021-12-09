@@ -3,14 +3,14 @@
 namespace ft
 {
 
-
-
 	template <typename T>
 	class Node
 	{
 	public:
 		Node *left;
 		Node *right;
+		Node *parent;
+
 		int height;
 		T pair;
 
@@ -20,6 +20,7 @@ namespace ft
 			left = node.left;
 			right = node.right;
 			height = node.height;
+			parent = node.parent;
 			pair = node.pair;
 		}
 
@@ -31,6 +32,18 @@ namespace ft
 			height = 0;
 		}
 
+		Node<T> &operator=(Node<T> const &rhs)
+		{
+			if (this != &rhs)
+			{
+				left = rhs.left;
+				right = rhs.right;
+				parent = rhs.parent;
+				height = rhs.height;
+				pair = rhs.pair;
+			}
+			return *this;
+		}
 	};
 
 	template <class T, class Comp>
@@ -39,36 +52,39 @@ namespace ft
 	public:
 		Node<T> *ptr;
 		Comp comp;
+		typedef Node<T> mynode;
 
 	public:
 		Avl(){};
-		Avl(Comp &p) : ptr(nullptr) , comp(p) {};
+		Avl(Comp &p) : ptr(nullptr), comp(p){};
 
-		Avl(Node<T> &p) : ptr(&p){};
-		T	&get_data()
+		Avl(Node<T> &p) : ptr(p)
+		{
+			// std::cout << ptr->pair.first << "<-- here\n";
+		}
+
+		T &get_data()
 		{
 			return (ptr->pair);
 		}
 
-		Avl &operator++()
+		Node<T> most_left(Node<T> *ptr2)
 		{
-			if (ptr->right) {
-			ptr = ptr->right;
-			while (ptr->left) {
-				ptr = ptr->left;
-			}
-		} else {
-			Node<T> y = ptr->parent;
-			while (ptr == y->right) {
-				ptr = y;
-				y = y->parent;
-			}
-			if (ptr->right != y) {
-				ptr = y;
-			}
+			Node<T> tmp = *ptr2;
+			while (tmp.left)
+				tmp = *tmp.left;
+			return tmp;
 		}
-			return (*this);
+
+		Node<T> most_right()
+		{
+			Avl ret(*ptr);
+
+			while (ret.ptr->right)
+				ret.ptr = ret.ptr->right;
+			return ret;
 		}
+
 		void printTree(Node<T> *ptr, std::string indent, bool last)
 		{
 			if (ptr != nullptr)
@@ -94,6 +110,7 @@ namespace ft
 		{
 			Node<T> *node = new Node<T>();
 			node->pair = pair;
+			node->parent = nullptr;
 			node->left = nullptr;
 			node->right = nullptr;
 			return node;
@@ -115,11 +132,16 @@ namespace ft
 		{
 			Node<T> *x;
 			Node<T> *T2;
+			Node<T> *temp_parent;
 
 			x = y->left;
 			T2 = x->right;
 
+			temp_parent = y->parent;
+			y->parent = x;
+
 			x->right = y;
+			x->parent = temp_parent;
 			y->left = T2;
 
 			x->height = max(height(x->left), height(x->right)) + 1;
@@ -132,11 +154,16 @@ namespace ft
 		{
 			Node<T> *y;
 			Node<T> *T2;
+			Node<T> *temp_parent;
 
 			y = x->right;
 			T2 = y->left;
 
+			temp_parent = x->parent;
+			x->parent = y;
+
 			y->left = x;
+			y->parent = temp_parent;
 			x->right = T2;
 
 			x->height = max(height(x->left), height(x->right)) + 1;
@@ -155,7 +182,11 @@ namespace ft
 		Node<T> *insertNode(Node<T> *root, T pair)
 		{
 			if (root == nullptr)
-				return newNode(pair);
+			{
+				Node<T> *ret = newNode(pair);
+				ret->parent = root;
+				return ret;
+			}
 
 			if (comp(pair, root->pair))
 				root->left = insertNode(root->left, pair);
@@ -194,9 +225,30 @@ namespace ft
 			return root;
 		}
 
-		void insert(T pair)
+		// void insert(T pair)
+		// {
+		// 	ptr = insertNode(ptr, pair);
+		// }
+
+		Node<T> search_by_key(T pair, bool &bl, Node<T> *ptr2)
 		{
-			ptr = insertNode(ptr, pair);
+			Node<T> *tmp;
+			tmp = ptr2;
+
+			while (1 && tmp)
+			{
+				if (tmp->pair.first == pair.first)
+				{
+					bl = true;
+					return (*tmp);
+				}
+				if (comp(tmp->pair, pair))
+					tmp = tmp->right;
+				else
+					tmp = tmp->left;
+			}
+			Node<T> *ret = newNode(pair);
+			return (*ret);
 		}
 
 		Node<T> *nodeWithMimumValue(Node<T> *node)
