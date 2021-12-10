@@ -23,22 +23,21 @@ namespace ft
 	class MapIterator
 	{
 	public:
-		
 		typedef Avl<pair, comp> Avl;
 		typedef MapIterator<pair, comp> iterator;
 		typedef Node<pair> Node;
 
 	private:
-		Node _tree;
+		Node *_tree;
 
 	public:
-		MapIterator():_tree() {}
-		MapIterator(Node  const &node) : _tree(node) {}
+		MapIterator() : _tree() {}
+		MapIterator(Node *node) : _tree(node) {}
 		MapIterator(iterator &MapIterator) : _tree(MapIterator._tree) {}
 
 		pair *operator->()
 		{
-			return &(_tree.pair);
+			return &(_tree->pair);
 		}
 
 		iterator &operator=(iterator const &rhs)
@@ -49,35 +48,15 @@ namespace ft
 
 		iterator &operator++()
 		{
-			if (_tree.right)
-			{
-				_tree = _tree.right;
-				while (_tree.left)
-				{
-					_tree = _tree.left;
-				}
-			}
-			else
-			{
-
-				Node y = _tree.parent;
-				while (_tree == y.right)
-				{
-					_tree = y;
-					y = y.parent;
-				}
-				if (_tree.right != y)
-				{
-					_tree = y;
-				}
-			}
+			_tree = get_next<pair>(_tree);
 			return (*this);
 		}
 
 		iterator operator++(int)
 		{
 			iterator temp = *this;
-			++(*this);
+			_tree = get_next<pair>(_tree);
+
 			return temp;
 		}
 	};
@@ -144,14 +123,10 @@ namespace ft
 		Node *_tree;
 
 	public:
-	
-
 		explicit map(const key_compare &comp = key_compare(),
 					 const allocator_type &alloc = allocator_type()) : m_comp(comp), m_allocator(alloc), _tree(nullptr)
 		{
-
 		}
-
 
 		iterator begin()
 		{
@@ -161,7 +136,7 @@ namespace ft
 
 		iterator end()
 		{
-			Node it(_avl.most_right());
+			Node it(_avl.most_right(_tree));
 			return (it);
 		}
 
@@ -173,9 +148,9 @@ namespace ft
 
 			iterator ret(_avl.search_by_key(val, bl, _tree));
 			Node *tmp = _avl.newNode(val);
-			iterator ret1(*tmp);
+			iterator ret1(tmp);
 
-			if(bl == true)
+			if (bl == true)
 			{
 				p.first = ret;
 				p.second = false;
@@ -189,12 +164,6 @@ namespace ft
 			_tree = _avl.insertNode(_tree, val);
 			return (p);
 		}
-
-		iterator insert (iterator position, const value_type &)
-		{
-			
-		}
-
 		// const_iterator end() const
 		// {
 		// 	const_iterator it(_avl.most_right());
