@@ -63,22 +63,22 @@ namespace ft
 		pair(const pair<U, V> &pr) : first(pr.first), second(pr.second){};
 
 		pair(const first_type &a, const second_type &b) : first(a), second(b){};
-
-		pair &operator=(const pair &rhs)
+		
+		pair &operator=(const pair &pr)
 		{
-			if (this == &rhs)
-				return *this;
-			this->first = rhs.first;
-			this->second = rhs.second;
+			if (this != &pr)
+			{
+				// this->first = pr.first;
+				this->second = pr.second;
+			}
 			return *this;
 		}
-
+		
 		// T1 &operator[](std::ostream& os, const pair<T1, T2> &lhs)
 		// {
 		// 	os << lhs.first;
 		// 	return os;
 		// }
-
 	};
 
 	template <class T1, class T2>

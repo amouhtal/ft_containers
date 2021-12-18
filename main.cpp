@@ -2,33 +2,33 @@
 #include "vector/vector.hpp"
 #include "map/map.hpp"
 #include <map>
+
 // #include <vector>
 // #include <utility>
 // using namespace std
 
+#include <iostream>
+#include <map>
+
 int main()
 {
+  ft::map<char, int> mymap;
+  ft::map<char, int>::const_iterator itlow, itup;
 
-	ft::map<int, int> ma;
+  mymap['a'] = 20;
+  mymap['b'] = 40;
+  mymap['c'] = 60;
+  mymap['d'] = 80;
+  mymap['e'] = 100;
 
-	ft::map<int, int>::iterator it;
-	ft::map<int, int>::iterator it_e;
-	ma.insert(ft::pair<int, int>(20, 6));
-	ma.insert(ft::pair<int, int>(15, 7));
-	ma.insert(ft::pair<int, int>(35, 8));
-	ma.insert(ft::pair<int, int>(30, 9));
-	ma.insert(ft::pair<int, int>(40, 10));
-	ma.insert(ft::pair<int, int>(25, 11));
+  itlow = mymap.begin(); // itlow points to b
+  // itup = mymap.upper_bound ('d');   // itup points to e (not d!)
 
-	it = ma.begin();
-	it++;
-	// ++it;
-	// ma.insert(it,ft::pair<int, int>(13, 11));
-	// it = ma.begin();
-	// it++;
-	// it++;
-	std::cout << " key :" << it->first << " seconde : " << it->second << "\n";
-	// it = ma.begin();
+  std::cout << itlow->first << " " << itlow->second << std::endl;
+  itlow++;
+  std::cout << itlow->first << " " << itlow->second << std::endl;
 
-	return 0;
+  return 0;
 }
+
+// obeject const === finction

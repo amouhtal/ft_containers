@@ -1,4 +1,5 @@
 #include "map.hpp"
+#include "../vector/utils/utils.hpp"
 
 namespace ft
 {
@@ -15,35 +16,37 @@ namespace ft
 		T pair;
 
 		Node() : left(NULL), right(NULL), height(0) {}
-		Node(Node<T> const &node)
+		Node(Node<T> const &node) : pair(node.pair)
 		{
 			left = node.left;
 			right = node.right;
 			height = node.height;
 			parent = node.parent;
-			pair = node.pair;
+			// pair = node.pair;
 		}
 
-		Node(T pair)
+		Node(T const &pair):pair(pair)
 		{
-			this->pair = pair;
+			// this->pair = pair;
 			left = NULL;
 			right = NULL;
+			parent = NULL;
 			height = 0;
 		}
 
-		Node<T> &operator=(Node<T> const *rhs)
-		{
-			if (this != &rhs)
-			{
-				left = rhs->left;
-				right = rhs->right;
-				parent = rhs->parent;
-				height = rhs->height;
-				pair = rhs->pair;
-			}
-			return *this;
-		}
+		// Node<T> &operator=(Node<T> const &rhs)
+		// {
+		// 	if (this != &rhs)
+		// 	{
+		// 		left = rhs.left;
+		// 		right = rhs.right;
+		// 		parent = rhs.parent;
+		// 		height = rhs.height;
+		// 		pair = rhs.pair;
+		// 	}
+		// 	return *this;
+		// }
+	
 		bool operator==(Node<T> const &rhs)
 		{
 			if (left == rhs.left && right == rhs.right && parent == rhs.parent && height == rhs.height)
@@ -58,8 +61,9 @@ namespace ft
 			return true;
 		}
 	};
-	template<typename T>
-	Node<T> *get_next(Node<T> *root)
+
+	template <typename nodePtr>
+	nodePtr get_next(nodePtr root)
 	{
 		if (root->right)
 		{
@@ -71,8 +75,7 @@ namespace ft
 		}
 		else
 		{
-			Node<T> *y = root->parent;
-			std::cout << y->pair.first << "----\n";
+			nodePtr y = root->parent;
 			while (root == y->right)
 			{
 				root = y;
@@ -85,21 +88,83 @@ namespace ft
 		}
 		return (root);
 	}
-	template <class T, class Comp>
+
+	template <typename nodePtr>
+	nodePtr get_precedent(nodePtr root)
+	{
+		if (root->left)
+		{
+			nodePtr y = root->left;
+			while (y->right)
+			{
+				y = y->right;
+			}
+			root = y;
+		}
+		else
+		{
+			nodePtr y = root->parent;
+			while (root == y->left)
+			{
+				root = y;
+				y = y->parent;
+			}
+			root = y;
+		}
+		return root;
+	}
+	template <class T, class Comp, typename Alloc = std::allocator<T> >
 	class Avl
 	{
 	public:
+		// typedef Alloc allocator_type;
+		typedef Node<T> mynode;
+		typedef typename Alloc::template rebind<Node<T> >::other allocator_type;
 		Node<T> *ptr;
 		Comp comp;
-		typedef Node<T> mynode;
+		allocator_type m_allocate;
 
 	public:
-		Avl(){};
-		Avl(Comp &p) : ptr(nullptr), comp(p){};
+		Avl(const allocator_type &alloc = allocator_type()) : ptr(nullptr), m_allocate(alloc){};
+		Avl(Comp &p, const allocator_type &alloc = allocator_type()) : ptr(nullptr), comp(p), m_allocate(alloc){};
 
 		Avl(Node<T> &p) : ptr(p)
 		{
 			// std::cout << ptr->pair.first << "<-- here\n";
+		}
+
+		size_t size2(Node<T> *root)
+		{
+			size_t ret = 1;
+			if (root == NULL)
+				return 0;
+
+			if (root->left)
+				ret = size2(root->left) + 1;
+			if (root->right)
+				ret = size2(root->right) + 1;
+			return ret;
+		}
+
+		Node<T> *clear2(Node<T> *root)
+		{
+			if (root == NULL)
+				return NULL;
+			if (root->left)
+			{
+				clear2(root->left);
+				m_allocate.deallocate(root->left, 1);
+				root->left = NULL;
+				root->parent = NULL;
+			}
+			if (root->right)
+			{
+				clear2(root->right);
+				m_allocate.deallocate(root->right, 1);
+				root->right = NULL;
+				root->parent = NULL;
+			}
+			return NULL;
 		}
 
 		T &get_data()
@@ -107,20 +172,19 @@ namespace ft
 			return (ptr->pair);
 		}
 
-		Node<T> *most_left(Node<T> *ptr2)
+		Node<T> *most_left(Node<T> *ptr2) const
 		{
 			Node<T> *tmp = ptr2;
-			while (tmp->left)
+			while (tmp && tmp->left)
 				tmp = tmp->left;
 			return tmp;
 		}
 
-		Node<T> *most_right(Node<T> *ptr2)
+		Node<T> *most_right(Node<T> *ptr2) const
 		{
 			Node<T> *tmp = ptr2;
-
-			while (tmp->right)
-				tmp = tmp->right;
+			while (tmp && tmp->parent)
+				tmp = tmp->parent;
 			return tmp;
 		}
 
@@ -128,6 +192,8 @@ namespace ft
 		{
 			if (ptr != nullptr)
 			{
+				if (ptr->parent)
+					std::cout << "\tp: " << ptr->parent->pair.first;
 				std::cout << indent;
 				if (last)
 				{
@@ -145,22 +211,23 @@ namespace ft
 			}
 		}
 
-		Node<T> *newNode(T pair)
+		Node<T> *newNode(T const &pair)
 		{
-			Node<T> *node = new Node<T>();
-			node->pair = pair;
+			Node<T> *node = m_allocate.allocate(1);
+			m_allocate.construct(node, pair);
+			// node->pair = pair;
 			node->parent = nullptr;
 			node->left = nullptr;
 			node->right = nullptr;
 			return node;
 		}
 
-		int max(int a, int b)
+		int max(int a, int b) const
 		{
 			return (a > b ? a : b);
 		}
 
-		int height(Node<T> *root)
+		int height(Node<T> *root) const
 		{
 			if (root == NULL)
 				return 0;
@@ -182,6 +249,8 @@ namespace ft
 			x->right = y;
 			x->parent = temp_parent;
 			y->left = T2;
+			if (T2)
+				T2->parent = y;
 
 			x->height = max(height(x->left), height(x->right)) + 1;
 			y->height = max(height(y->left), height(y->right)) + 1;
@@ -204,6 +273,8 @@ namespace ft
 			y->left = x;
 			y->parent = temp_parent;
 			x->right = T2;
+			if (T2)
+				T2->parent = x;
 
 			x->height = max(height(x->left), height(x->right)) + 1;
 			y->height = max(height(y->left), height(y->right)) + 1;
@@ -224,17 +295,17 @@ namespace ft
 			{
 				return newNode(pair);
 			}
-			if (comp(pair, root->pair)) 
+			if (comp(pair, root->pair))
 			{
 				Node<T> *ret = insertNode(root->left, pair);
 				ret->parent = root;
-				root->left =ret ;
+				root->left = ret;
 			}
 			else if (comp(root->pair, pair))
 			{
 				Node<T> *ret = insertNode(root->right, pair);
 				ret->parent = root;
-				root->right =ret;
+				root->right = ret;
 			}
 			else
 				return root;
@@ -256,6 +327,7 @@ namespace ft
 			}
 			if (bf < -1)
 			{
+
 				if (comp(root->right->pair, pair))
 				{
 					return left_rotate(root);
@@ -303,6 +375,25 @@ namespace ft
 			return current;
 		}
 
+		bool count(Node<T> *root, T pair) const
+		{
+			Node<T> *tmp;
+			tmp = root;
+
+			while (1 && tmp)
+			{
+				if (tmp->pair.first == pair.first)
+				{
+					return (true);
+				}
+				if (comp(tmp->pair, pair))
+					tmp = tmp->right;
+				else
+					tmp = tmp->left;
+			}
+			return false;
+		}
+	
 		Node<T> *deleteNode(Node<T> *root, T key)
 		{
 			// Find the node and delete it
@@ -314,8 +405,7 @@ namespace ft
 				root->right = deleteNode(root->right, key);
 			else
 			{
-				if ((root->left == NULL) ||
-					(root->right == NULL))
+				if ((root->left == NULL) || (root->right == NULL))
 				{
 					Node<T> *temp = root->left ? root->left : root->right;
 					if (temp == NULL)
@@ -330,9 +420,8 @@ namespace ft
 				else
 				{
 					Node<T> *temp = nodeWithMimumValue(root->right);
-					root->key = temp->key;
-					root->right = deleteNode(root->right,
-											 temp->key);
+					root->pair = temp->pair;
+					root->right = deleteNode(root->right, temp->pair);
 				}
 			}
 			if (root == NULL)
