@@ -10,25 +10,32 @@
 #include <iostream>
 #include <map>
 
-int main()
+int main ()
 {
-  ft::map<char, int> mymap;
-  ft::map<char, int>::const_iterator itlow, itup;
+  ft::map<char,int> mymap;
+  ft::map<char,int>::iterator it;
 
-  mymap['a'] = 20;
-  mymap['b'] = 40;
-  mymap['c'] = 60;
-  mymap['d'] = 80;
-  mymap['e'] = 100;
+  // insert some values:
+  mymap['a']=10;
+  mymap['b']=20;
+  mymap['c']=30;
+  mymap['d']=40;
+  mymap['e']=50;
+  mymap['f']=60;
 
-  itlow = mymap.begin(); // itlow points to b
-  // itup = mymap.upper_bound ('d');   // itup points to e (not d!)
+// mymap.printf_map();
 
-  std::cout << itlow->first << " " << itlow->second << std::endl;
-  itlow++;
-  std::cout << itlow->first << " " << itlow->second << std::endl;
+  it = mymap.find('f');
+  mymap.erase (it);                   // erasing by iterator
+
+  mymap.erase ('c');                  // erasing by key
+
+  // it=mymap.find ('e');
+  // mymap.erase ( it, mymap.end() );    // erasing by range
+// mymap.printf_map();
+  // show content:
+  for (it=mymap.begin(); it!=mymap.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
 
   return 0;
 }
-
-// obeject const === finction

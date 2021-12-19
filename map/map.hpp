@@ -194,13 +194,15 @@ namespace ft
 					 const allocator_type &alloc = allocator_type()) : m_comp(comp), m_allocator(alloc), _tree(nullptr)
 		{
 			end_tree = new Node();
+			end_tree->height = -66;
+		
 		}
 
-		// iterator begin()
-		// {
-		// 	iterator it(_avl.most_left(_tree));
-		// 	return (it);
-		// }
+		iterator begin()
+		{
+			iterator it(_avl.most_left(_tree));
+			return (it);
+		}
 
 		const_iterator begin() const
 		{
@@ -277,7 +279,6 @@ namespace ft
 			_tree = _avl.insertNode(_tree, val);
 			_tree->parent = end_tree;
 			end_tree->left = _tree;
-
 			return ft::make_pair(iterator(_avl.search_by_key(val, bl, _tree)), true);
 		}
 
@@ -306,10 +307,14 @@ namespace ft
 
 		size_type erase(const key_type &k)
 		{
-			value_type val(k, 5);
 			bool b = true;
-			Node *pos = _avl.search_by_key(val, b, _tree);
-			_avl.deleteNode(_tree, pos->pair);
+			Node *pos = _avl.search_by_key(make_pair(k, mapped_type()), b, _tree);
+			//  it(pos);
+			erase(iterator(pos));
+			// if(_tree->parent == end_tree )
+			// std::cout << "hello" << std::endl;
+			// exit(1);
+			// _tree = _avl.deleteNode(_tree, make_pair(k, mapped_type()));
 			return 5;
 		}
 

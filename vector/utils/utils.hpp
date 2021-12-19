@@ -64,7 +64,7 @@ namespace ft
 
 		pair(const first_type &a, const second_type &b) : first(a), second(b){};
 		
-		pair &operator=(const pair &pr)
+		pair &operator=(const pair &pr) 
 		{
 			if (this != &pr)
 			{
@@ -73,12 +73,6 @@ namespace ft
 			}
 			return *this;
 		}
-		
-		// T1 &operator[](std::ostream& os, const pair<T1, T2> &lhs)
-		// {
-		// 	os << lhs.first;
-		// 	return os;
-		// }
 	};
 
 	template <class T1, class T2>
