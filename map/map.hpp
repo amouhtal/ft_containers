@@ -23,7 +23,7 @@ namespace ft
 	class MapIterator
 	{
 	public:
-	private:
+	public:
 		NodPtr _tree;
 
 	public:
@@ -79,14 +79,14 @@ namespace ft
 
 		MapIterator &operator--()
 		{
-			_tree = get_precedent<pair>(_tree);
+			_tree = get_precedent(_tree);
 			return (*this);
 		}
 
 		MapIterator operator--(int)
 		{
 			MapIterator temp = *this;
-			_tree = get_precedent<pair>(_tree);
+			_tree = get_precedent(_tree);
 
 			return temp;
 		}
@@ -302,7 +302,7 @@ namespace ft
 		{
 			_tree = _avl.deleteNode(_tree, position.get_pair());
 		}
-
+		
 		size_type erase(const key_type &k)
 		{
 			bool b = true;
@@ -312,21 +312,34 @@ namespace ft
 			// if(_tree->parent == end_tree )
 			// std::cout << "hello" << std::endl;
 			// exit(1);
-			// _tree = _avl.deleteNode(_tree, make_pair(k, mapped_type()));
+			// _tree = );
 			return 5;
 		}
 
 		void erase(iterator first, iterator last)
 		{
 			iterator temp;
-
+			iterator temp2;
+			NodePtr ptr;
 			while (first != last)
 			{
 				if (first == end())
-					return ;
+					return;
 				temp = first;
 				first++;
 				erase(temp);
+				// key_type key = first->first;
+
+				// ptr = _avl.deleteNode(_tree, temp.get_pair());
+				// bool b;
+				// ptr = _avl.search_by_key(make_pair(key, mapped_type()), b, _tree);
+
+				// first = iterator(ptr);
+
+				// std::cout << "--**" << first->first << std::endl;
+				// i++;
+				// if (i == 2)
+				// 	break;
 			}
 		}
 

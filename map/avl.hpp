@@ -310,10 +310,10 @@ namespace ft
 			}
 			else
 				return root;
-			
+
 			root->height = max(height(root->left), height(root->right)) + 1;
 			int bf = getBalanceFactor(root);
-			
+
 			if (bf > 1)
 			{
 				if (comp(pair, root->left->pair))
@@ -394,6 +394,7 @@ namespace ft
 			}
 			return false;
 		}
+		
 
 		Node<T> *deleteNode(Node<T> *root, T key)
 		{
@@ -411,12 +412,21 @@ namespace ft
 					Node<T> *temp = root->left ? root->left : root->right;
 					if (temp == NULL)
 					{
+						// std::cout << "root : " << temp->pair.first << std::endl;
 						temp = root;
 						root = NULL;
 					}
 					else
 					{
-						*root = *temp;
+						// *root = *temp;
+					Node<T> *temp1 = root->parent;
+						m_allocate.construct(root, temp->pair);
+						root->left = temp->left;
+						root->right = temp->right;
+						root->height = temp->height;
+						root->pair = temp->pair;
+						root->parent = temp1;
+
 					}
 					m_allocate.destroy(temp);
 					m_allocate.deallocate(temp, 1);
@@ -426,7 +436,7 @@ namespace ft
 				{
 					Node<T> *temp = nodeWithMimumValue(root->right);
 
-					Node<T> *new_node= m_allocate.allocate(1);
+					Node<T> *new_node = m_allocate.allocate(1);
 					m_allocate.construct(new_node, temp->pair);
 					// root->left = new_node->left;
 					// root->right = new_node->right;
@@ -436,11 +446,12 @@ namespace ft
 					new_node->left = root->left;
 					new_node->right = root->right;
 					new_node->height = root->height;
+
 					if (root->left)
 						root->left->parent = new_node;
 					if (root->right)
 						root->right->parent = new_node;
-	
+
 					if (root == root->parent->left)
 						root->parent->left = new_node;
 					else if (root == root->parent->right)
@@ -449,9 +460,10 @@ namespace ft
 					root->left = nullptr;
 					root->right = nullptr;
 					root->parent = nullptr;
-					m_allocate.construct(root, temp->pair);
+					// m_allocate.construct(root, temp->pair);
 					root = new_node;
-					
+					std::cout << "new_node " << root->parent->pair.first << "--?" << std::endl;
+
 					// root->pair = temp->pair;
 					root->right = deleteNode(root->right, temp->pair);
 				}
@@ -465,7 +477,6 @@ namespace ft
 			int balanceFactor = getBalanceFactor(root);
 			if (balanceFactor > 1)
 			{
-			puts("here1");
 				if (getBalanceFactor(root->left) >= 0)
 				{
 					return right_rotate(root);
@@ -478,8 +489,6 @@ namespace ft
 			}
 			if (balanceFactor < -1)
 			{
-			puts("here2");
-
 				if (getBalanceFactor(root->right) <= 0)
 				{
 					return left_rotate(root);
