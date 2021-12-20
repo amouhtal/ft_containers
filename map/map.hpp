@@ -20,17 +20,16 @@ namespace ft
 	};
 
 	template <class pair, typename NodPtr>
-	class MapIterator 
+	class MapIterator
 	{
 	public:
-
 	private:
 		NodPtr _tree;
 
 	public:
 		MapIterator() : _tree(nullptr) {}
 		template <class T1>
-			MapIterator(const MapIterator<T1, NodPtr> &it) : _tree(it.base()) {}
+		MapIterator(const MapIterator<T1, NodPtr> &it) : _tree(it.base()) {}
 		explicit MapIterator(NodPtr node) : _tree(node) {}
 		NodPtr base() const
 		{
@@ -195,7 +194,6 @@ namespace ft
 		{
 			end_tree = new Node();
 			end_tree->height = -66;
-		
 		}
 
 		iterator begin()
@@ -316,6 +314,20 @@ namespace ft
 			// exit(1);
 			// _tree = _avl.deleteNode(_tree, make_pair(k, mapped_type()));
 			return 5;
+		}
+
+		void erase(iterator first, iterator last)
+		{
+			iterator temp;
+
+			while (first != last)
+			{
+				if (first == end())
+					return ;
+				temp = first;
+				first++;
+				erase(temp);
+			}
 		}
 
 		void swap(map &x)

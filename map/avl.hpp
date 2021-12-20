@@ -425,7 +425,6 @@ namespace ft
 				else
 				{
 					Node<T> *temp = nodeWithMimumValue(root->right);
-					std::cout << root->height << std::endl;
 
 					Node<T> *new_node= m_allocate.allocate(1);
 					m_allocate.construct(new_node, temp->pair);
@@ -452,7 +451,6 @@ namespace ft
 					root->parent = nullptr;
 					m_allocate.construct(root, temp->pair);
 					root = new_node;
-					std::cout << root->height << std::endl;
 					
 					// root->pair = temp->pair;
 					root->right = deleteNode(root->right, temp->pair);
