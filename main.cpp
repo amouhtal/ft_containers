@@ -23,16 +23,14 @@ int main ()
   mymap['e']=50;
   mymap['f']=60;
 
-// mymap.printf_map();
-
-  it = mymap.find('f');
+  it=mymap.find('b');
   mymap.erase (it);                   // erasing by iterator
 
   mymap.erase ('c');                  // erasing by key
 
-  // it=mymap.find ('e');
-  // mymap.erase ( it, mymap.end() );    // erasing by range
-// mymap.printf_map();
+  it=mymap.find ('e');
+  mymap.erase ( it, mymap.end() );    // erasing by range
+
   // show content:
   for (it=mymap.begin(); it!=mymap.end(); ++it)
     std::cout << it->first << " => " << it->second << '\n';
