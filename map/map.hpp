@@ -2,21 +2,110 @@
 #define __MAP_HPP__
 
 #include <iostream>
+#include "../vector/vector.hpp"
 #include "../vector/utils/utils.hpp"
 #include "avl.hpp"
 
 namespace ft
 {
 
-	template <class Iterator>
+	// template <class Iterator>
+	// class map_reverse_iterator
+	// {
+	// 	typedef Iterator iterator_type;
+	// 	typedef typename iterator_traits<Iterator>::iterator_category iterator_category;
+	// 	typedef typename iterator_traits<Iterator>::value_type value_type;
+	// 	typedef typename iterator_traits<Iterator>::difference_type difference_type;
+	// 	typedef typename iterator_traits<Iterator>::pointer pointer;
+	// 	typedef typename iterator_traits<Iterator>::reference reference;
+	// };
+
+	template <typename iterator>
 	class map_reverse_iterator
 	{
-		typedef Iterator iterator_type;
-		typedef typename iterator_traits<Iterator>::iterator_category iterator_category;
-		typedef typename iterator_traits<Iterator>::value_type value_type;
-		typedef typename iterator_traits<Iterator>::difference_type difference_type;
-		typedef typename iterator_traits<Iterator>::pointer pointer;
-		typedef typename iterator_traits<Iterator>::reference reference;
+	public:
+		iterator _tree;
+
+	public:
+		map_reverse_iterator() : _tree(nullptr) {}
+		template <class T1>
+		map_reverse_iterator(const map_reverse_iterator<iterator> &it) : _tree(it.base()) {}
+		explicit map_reverse_iterator(iterator node) : _tree(node) {}
+		typedef typename iterator::value_type pair;
+
+		iterator base() const
+		{
+			return _tree;
+		}
+
+		pair &operator*() const
+		{
+			return (*--base());
+		}
+
+		pair *operator->()
+		{
+			return &(operator*());
+		}
+
+		pair &get_pair()
+		{
+			return (_tree.get_pair());
+		}
+
+		map_reverse_iterator &operator++()
+		{
+			--_tree;
+			return (*this);
+		}
+
+		map_reverse_iterator operator++(int)
+		{
+			map_reverse_iterator temp = *this;
+			_tree--;
+			return temp;
+		}
+
+		map_reverse_iterator &operator--()
+		{
+			++_tree;
+			return (*this);
+		}
+
+		map_reverse_iterator operator--(int)
+		{
+			map_reverse_iterator temp = *this;
+			_tree++;
+			return temp;
+		}
+
+		bool operator!()
+		{
+			if (_tree == nullptr)
+				return true;
+			return false;
+		}
+
+		bool operator==(map_reverse_iterator const &rhs)
+		{
+			if (_tree == rhs._tree)
+				return true;
+			return false;
+		}
+
+		bool operator!=(map_reverse_iterator const &rhs)
+		{
+			if (_tree != rhs._tree)
+				return true;
+			return false;
+		}
+
+		bool empty() const
+		{
+			if (_tree)
+				return true;
+			return false;
+		}
 	};
 
 	template <class pair, typename NodPtr>
@@ -25,6 +114,7 @@ namespace ft
 	public:
 	public:
 		NodPtr _tree;
+		typedef pair value_type;
 
 	public:
 		MapIterator() : _tree(nullptr) {}
@@ -134,9 +224,6 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		// typedef map_reverse_iterator<iterator> const_iterator;
-		// typedef map_reverse_iterator<const_iterator> map_reverse_iterator;
-		// typedef const_reverse_iterator const_reverse_iterator;
 		typedef typename iterator_traits<pointer>::difference_type difference_type;
 		typedef size_t size_type;
 
@@ -176,6 +263,8 @@ namespace ft
 
 		typedef MapIterator<value_type, NodePtr> iterator;
 		typedef MapIterator<const value_type, NodePtr> const_iterator;
+		typedef map_reverse_iterator<iterator> reverse_iterator;
+		typedef map_reverse_iterator<const_iterator> const_reverse_iterator;
 		// typedef MapIterator<const_value_type, MapKeyCompare> const_iterator;
 
 		typedef Avl<value_type, MapKeyCompare> Avl_algo;
@@ -207,6 +296,30 @@ namespace ft
 			const_iterator it(_avl.most_left(_tree));
 
 			return (it);
+		}
+
+		reverse_iterator rbegin()
+		{
+			reverse_iterator it(end());
+			return it;
+		}
+
+		const_reverse_iterator rbegin() const
+		{
+			const_reverse_iterator it(end());
+			return it;
+		}
+
+		reverse_iterator rend()
+		{
+			reverse_iterator it(begin());
+			return it;
+		}
+
+		const_reverse_iterator rend() const
+		{
+			const_reverse_iterator it(begin());
+			return it;
 		}
 
 		iterator end()
@@ -293,6 +406,11 @@ namespace ft
 			return map_it;
 		}
 
+		template <class InputIterator>
+		void insert(InputIterator first, InputIterator last)
+		{
+		}
+
 		void printf_map()
 		{
 			_avl.printTree(_tree, "", true);
@@ -302,7 +420,7 @@ namespace ft
 		{
 			_tree = _avl.deleteNode(_tree, position.get_pair());
 		}
-		
+
 		size_type erase(const key_type &k)
 		{
 			bool b = true;
@@ -319,27 +437,24 @@ namespace ft
 		void erase(iterator first, iterator last)
 		{
 			iterator temp;
-			iterator temp2;
 			NodePtr ptr;
-			while (first != last)
+			bool bl;
+			key_type a = first->first;
+			key_type b = last->first;
+
+			while (first->first != b)
 			{
 				if (first == end())
 					return;
 				temp = first;
 				first++;
+				ptr = _avl.newNode((first.base()->pair));
 				erase(temp);
-				// key_type key = first->first;
-
-				// ptr = _avl.deleteNode(_tree, temp.get_pair());
-				// bool b;
-				// ptr = _avl.search_by_key(make_pair(key, mapped_type()), b, _tree);
-
-				// first = iterator(ptr);
-
-				// std::cout << "--**" << first->first << std::endl;
-				// i++;
-				// if (i == 2)
-				// 	break;
+				first = iterator(_avl.search_by_key(ptr->pair, bl, _tree));
+				// if (first->first == b)
+				// {
+				// 	std::cout << "l " << b << std::endl;
+				// }
 			}
 		}
 

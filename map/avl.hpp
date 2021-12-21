@@ -140,9 +140,9 @@ namespace ft
 				return 0;
 
 			if (root->left)
-				ret = size2(root->left) + 1;
+				ret += size2(root->left);
 			if (root->right)
-				ret = size2(root->right) + 1;
+				ret += size2(root->right);
 			return ret;
 		}
 
@@ -462,8 +462,6 @@ namespace ft
 					root->parent = nullptr;
 					// m_allocate.construct(root, temp->pair);
 					root = new_node;
-					std::cout << "new_node " << root->parent->pair.first << "--?" << std::endl;
-
 					// root->pair = temp->pair;
 					root->right = deleteNode(root->right, temp->pair);
 				}
