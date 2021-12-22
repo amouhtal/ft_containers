@@ -11,23 +11,19 @@
 
 int main ()
 {
+  int psize;
   ft::map<char,int> mymap;
+  ft::pair<const char,int>* p;
 
-  mymap['x']=100;
-  mymap['y']=200;
-  mymap['z']=300;
+  // allocate an array of 5 elements using mymap's allocator:
+  p=mymap.get_allocator().allocate(5);
 
-  std::cout << "mymap contains:\n";
-  for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
+  // assign some values to array
+  psize = sizeof(ft::map<char,int>::value_type)*5;
 
-  mymap.clear();
-  mymap['a']=1101;
-  mymap['b']=2202;
+  std::cout << "The allocated array has a size of " << psize << " bytes.\n";
 
-  std::cout << "mymap contains:\n";
-  for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
+  mymap.get_allocator().deallocate(p,5);
 
   return 0;
 }
