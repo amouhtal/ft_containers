@@ -290,7 +290,10 @@ namespace ft
 			iterator it(_avl.most_left(_tree));
 			return (it);
 		}
-
+		key_compare key_comp() const
+		{
+			return key_compare();
+		}
 		const_iterator begin() const
 		{
 			const_iterator it(_avl.most_left(_tree));
@@ -345,7 +348,10 @@ namespace ft
 				return false;
 			return true;
 		}
-
+		MapKeyCompare value_comp() const
+		{
+			return MapKeyCompare(m_comp);
+		}
 		iterator find(const key_type &k)
 		{
 			bool exist;
@@ -395,20 +401,30 @@ namespace ft
 
 		iterator insert(iterator position, const value_type &val)
 		{
+			bool bl;
 
-			insert(val);
-			iterator map_it = begin();
-			while (map_it++)
+			NodePtr node = _avl.search_by_key(*position, bl, _tree);
+			if (!bl || position == begin() || position == end())
+				insert(val);
+			else
 			{
-				if (map_it._tree->pair.first == val.first)
-					break;
+				iterator next = position++;
+				iterator prec = position--;
+				if (m_comp(next->first, val) && !m_comp(prec->first, val))
+				{
+					NodePtr no = position.base();
+					node = _avl.insertNode2(no, val);
+					_tree = _avl.balance_tree(_tree, val);
+				}
 			}
-			return map_it;
+			return position;
 		}
 
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last)
 		{
+			for (; first != last; first++)
+				insert(*first);
 		}
 
 		void printf_map()
@@ -512,6 +528,7 @@ namespace ft
 			{
 				it++;
 			}
+
 			return it;
 		}
 
@@ -553,6 +570,16 @@ namespace ft
 
 			ret.first = lower_bound(k);
 			ret.second = upper_bound(k);
+
+			return ret;
+		}
+
+		pair<const_iterator, const_iterator> equal_range(const key_type &k) const
+		{
+			pair<const_iterator, const_iterator> ret;
+
+			ret.first = lower_bound(k);
+			ret.second = upper_bound(k);
 			return ret;
 		}
 
@@ -573,10 +600,11 @@ namespace ft
 
 /*
 
-candidate function not viable: no known conversion from
-'MapIterator<pair<ft::map<char, int, std::__1::less<char>, std::__1::allocator<ft::pair<const char, int> > >::key_type, ft::map<char, int, std::__1::less<char>, std::__1::allocator<ft::pair<const char,
-	  int> > >::mapped_type>, [...]>
-	' to 'const MapIterator<pair<const char, const int>, [...]>' for 1st argument
-				iterator &operator=(iterator const &rhs)
+assigning to
+'ft::map<char, int, std::__1::less<char>, std::__1::allocator<ft::pair<const char, int> > >::NodePtr
+' (aka 'Node<pair<const char, int> > *') from incompatible
+	  type 'Node<ft::pair<const char, int> >'
+	node = _avl.insertNode2(position.base(), val);
+											   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 */

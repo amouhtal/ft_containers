@@ -342,6 +342,73 @@ namespace ft
 			return root;
 		}
 
+
+		Node<T> *insertNode2(Node<T> *root, const T &pair)
+		{
+			if (root == nullptr)
+			{
+				return newNode(pair);
+			}
+			if (comp(pair, root->pair))
+			{
+				Node<T> *ret = insertNode(root->left, pair);
+				ret->parent = root;
+				root->left = ret;
+			}
+			else if (comp(root->pair, pair))
+			{
+				Node<T> *ret = insertNode(root->right, pair);
+				ret->parent = root;
+				root->right = ret;
+			}
+			else
+				return root;
+
+			return root;
+		}
+
+		Node<T> *balance_tree(Node<T> *root, T pair)
+		{
+			if (root == nullptr)
+				return nullptr;
+			if (comp(pair, root->pair))
+				Node<T> *ret = balance_tree(root->left, pair);
+			else if (comp(root->pair, pair))
+				Node<T> *ret = insertNode(root->right, pair);
+			else
+				return root;
+
+			root->height = max(height(root->left), height(root->right)) + 1;
+			int bf = getBalanceFactor(root);
+
+			if (bf > 1)
+			{
+				if (comp(pair, root->left->pair))
+				{
+					return right_rotate(root);
+				}
+				else if (comp(root->left->pair, pair))
+				{
+					root->left = left_rotate(root->left);
+					return right_rotate(root);
+				}
+			}
+			if (bf < -1)
+			{
+
+				if (comp(root->right->pair, pair))
+				{
+					return left_rotate(root);
+				}
+				else if (comp(pair, root->right->pair))
+				{
+					root->right = right_rotate(root->right);
+					return left_rotate(root);
+				}
+			}
+			return root;
+		}
+
 		// void insert(T pair)
 		// {
 		// 	ptr = insertNode(ptr, pair);
@@ -419,12 +486,12 @@ namespace ft
 					else
 					{
 						// *root = *temp;
-					Node<T> *temp1 = root->parent;
+						Node<T> *temp1 = root->parent;
 						m_allocate.construct(root, temp->pair);
 						root->left = temp->left;
 						root->right = temp->right;
 						root->height = temp->height;
-						root->pair = temp->pair;
+						// root->pair = temp->pair;
 						root->parent = temp1;
 
 					}

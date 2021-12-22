@@ -7,23 +7,32 @@
 // using namespace std
 
 #include <iostream>
-#include <map>
+// #include <map>
 
 int main ()
 {
-  int psize;
   ft::map<char,int> mymap;
-  ft::pair<const char,int>* p;
+  ft::map<char,int>::iterator it;
 
-  // allocate an array of 5 elements using mymap's allocator:
-  p=mymap.get_allocator().allocate(5);
+  // insert some values:
+  mymap['a']=10;
+  mymap['b']=20;
+  mymap['c']=30;
+  mymap['d']=40;
+  mymap['e']=50;
+  mymap['f']=60;
 
-  // assign some values to array
-  psize = sizeof(ft::map<char,int>::value_type)*5;
+  it=mymap.find('b');
+  mymap.erase (it);                   // erasing by iterator
 
-  std::cout << "The allocated array has a size of " << psize << " bytes.\n";
+  mymap.erase ('c');                  // erasing by key
 
-  mymap.get_allocator().deallocate(p,5);
+  it=mymap.find ('e');
+  mymap.erase ( it, mymap.end() );    // erasing by range
+
+  // show content:
+  for (it=mymap.begin(); it!=mymap.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
 
   return 0;
 }

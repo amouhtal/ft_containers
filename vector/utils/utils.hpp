@@ -68,7 +68,7 @@ namespace ft
 		{
 			if (this != &pr)
 			{
-				// this->first = pr.first;
+				this->first = pr.first;
 				this->second = pr.second;
 			}
 			return *this;
