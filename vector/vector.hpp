@@ -49,7 +49,7 @@ namespace ft
 		typedef const T &reference;
 		typedef typename std::random_access_iterator_tag iterator_category;
 	};
-	
+
 	template <class Iterator>
 	class reverse_iterator
 	{
@@ -294,28 +294,25 @@ namespace ft
 		}
 
 		template <class InputIterator>
-		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value>::type * = nullptr) : _alloc(alloc), _container(nullptr), _size(0), _capacity(0)
+		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(),
+			   typename enable_if<!is_integral<InputIterator>::value>::type * = nullptr) : _alloc(alloc)
 		{
-			size_t len;
-			len = iterlenght(first, last);
-			_container = _alloc.allocate(len);
+			_size = iterlenght(first, last);
+			_capacity = _size;
+
+			_container = _alloc.allocate(_capacity);
 			pointer bg;
 			bg = _container;
-			while (len--)
+			int i = 0;
+			for (InputIterator it = first; it != last; it++)
 			{
-				_alloc.construct(bg, *first++);
-				bg++;
+				_container[i++] = *it;
 			}
 		}
 
-		vector(const vector &x)
+		vector(const vector &other)
 		{
-			this->_alloc = x._alloc;
-			// this->_container = x._container;
-			this->_capacity = x._capacity;
-			this->_size = x._size;
-
-			this->insert(this->begin(), x.begin(), x.end());
+			*this = other;
 		}
 
 		const_iterator begin() const
@@ -373,6 +370,7 @@ namespace ft
 
 		void resize(size_type __n, value_type val = value_type())
 		{
+
 			T *new_container;
 			if (__n > _capacity)
 			{
@@ -384,14 +382,28 @@ namespace ft
 			}
 			if (_size > __n)
 				_size = __n;
+			std::cout << _capacity << std::endl;
 			new_container = _alloc.allocate(_capacity);
 
 			for (size_t i = 0; i < _size; i++)
 				new_container[i] = _container[i];
 			for (; _size < __n; _size++)
 				new_container[_size] = val;
-			delete[] _container;
-			_container = new_container;
+			for (size_t i = 0; i < _size; i++)
+			{
+				_alloc.destroy(_container + i);
+			}
+			// std::cout << _capacity << "<->" << _size << std::endl;
+			// std::cout << &_container  << " " << &new_container << std::endl;
+			// _container = _alloc.allocate(_capacity);
+			// *this = ;
+			// delete[] _container;
+			// _container = new_container;
+			for (size_t i = 0; i < _size; i++)
+			{
+				_container[i] = new_container[i];
+			}
+			// _container = new_container;
 		}
 
 		size_type capacity() const
@@ -448,8 +460,6 @@ namespace ft
 
 		reference at(size_type n)
 		{
-			puts(
-				"without const");
 			if (n < 0 || n > _size)
 				throw std::out_of_range("index out of bounds");
 			else
@@ -692,9 +702,13 @@ namespace ft
 		vector &operator=(const vector &rhs)
 		{
 			_alloc = rhs._alloc;
-			_container = rhs._container;
 			_size = rhs._size;
 			_capacity = rhs._capacity;
+			puts("\n------------------im here");
+			for (size_t i = 0; i < _size; i++)
+			{
+				_container[i] = rhs._container[i];
+			}
 			return (*this);
 		}
 		// bool operator==(const vector &rhs)
