@@ -2,108 +2,117 @@
 #include "map/map.hpp"
 #include "vector/vector.hpp"
 // #include "stack/stack.hpp"
-// #include <vector>
+#include <vector>
 #include <stack>
 // #include <utility>
 // using namespace std
-
 int main()
 {
-  // constructors
-  /*{
-     ft::vector<int> first;                               // empty vector of ints
-     ft::vector<int> second(4, 100);                      // four ints with value 100
-     ft::vector<int> third(second.begin(), second.end()); // iterating through second
-     ft::vector<int> fourth(third);                       // a copy of third
 
-     // the iterator constructor can also be used to construct from arrays:
-     int myints[] = {16, 2, 77, 29};
-     ft::vector<int> fifth(myints, myints + sizeof(myints) / sizeof(int));
-
-     std::cout << "The contents of fifth are:";
-     for (ft::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
-       std::cout << ' ' << *it;
-     std::cout << '\n';
-   }
-  // BEGIN/END
+  ft::map<int, int> map;
+  for (size_t i = 0; i < 185; i++)
   {
-    ft::vector<int> myvector;
-    for (int i = 1; i <= 5; i++)
-      myvector.push_back(i);
-
-    std::cout << "myvector contains:";
-    for (ft::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
-      std::cout << ' ' << *it;
-    std::cout << '\n';
+    int nbr1 = rand();
+    int nbr2 = rand();
+    std::cout << nbr1 << " " << i << std::endl;
+    if (i == 183)
+      map.printf_map();
+        map.insert(ft::make_pair<int, int>(nbr1, nbr2));
   }
+}
+/*{
+int main()
+{
+// constructors
+   ft::vector<int> first;                               // empty vector of ints
+   ft::vector<int> second(4, 100);                      // four ints with value 100
+   ft::vector<int> third(second.begin(), second.end()); // iterating through second
+   ft::vector<int> fourth(third);                       // a copy of third
 
-  // RBEGIN/REND
-  {
-    ft::vector<int> myvector(5); // 5 default-constructed ints
+   // the iterator constructor can also be used to construct from arrays:
+   int myints[] = {16, 2, 77, 29};
+   ft::vector<int> fifth(myints, myints + sizeof(myints) / sizeof(int));
 
-    int i = 0;
+   std::cout << "The contents of fifth are:";
+   for (ft::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
+     std::cout << ' ' << *it;
+   std::cout << '\n';
+ }
+// BEGIN/END
+{
+  ft::vector<int> myvector;
+  for (int i = 1; i <= 5; i++)
+    myvector.push_back(i);
 
-    ft::vector<int>::reverse_iterator rit = myvector.rbegin();
-    for (; rit != myvector.rend(); ++rit)
-      *rit = ++i;
+  std::cout << "myvector contains:";
+  for (ft::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+}
 
-    std::cout << "myvector contains:";
-    for (ft::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
-      std::cout << ' ' << *it;
-    std::cout << '\n';
-  }
+// RBEGIN/REND
+{
+  ft::vector<int> myvector(5); // 5 default-constructed ints
 
-  // SIZE
-  {
-    ft::vector<int> myints;
-    std::cout << "0. size: " << myints.size() << '\n';
+  int i = 0;
 
-    for (int i = 0; i < 10; i++)
-      myints.push_back(i);
-    std::cout << "1. size: " << myints.size() << '\n';
+  ft::vector<int>::reverse_iterator rit = myvector.rbegin();
+  for (; rit != myvector.rend(); ++rit)
+    *rit = ++i;
 
-    myints.insert(myints.end(), 10, 100);
-    std::cout << "2. size: " << myints.size() << '\n';
+  std::cout << "myvector contains:";
+  for (ft::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+}
 
-    myints.pop_back();
-    std::cout << "3. size: " << myints.size() << '\n';
-  }
+// SIZE
+{
+  ft::vector<int> myints;
+  std::cout << "0. size: " << myints.size() << '\n';
 
-  // MAX_SIZE
+  for (int i = 0; i < 10; i++)
+    myints.push_back(i);
+  std::cout << "1. size: " << myints.size() << '\n';
 
-  {
-    ft::vector<int> myvector;
+  myints.insert(myints.end(), 10, 100);
+  std::cout << "2. size: " << myints.size() << '\n';
 
-    // set some content in the vector:
-    for (int i = 0; i < 100; i++)
-      myvector.push_back(i);
+  myints.pop_back();
+  std::cout << "3. size: " << myints.size() << '\n';
+}
 
-    std::cout << "size: " << myvector.size() << "\n";
-    std::cout << "capacity: " << myvector.capacity() << "\n";
-    std::cout << "max_size: " << myvector.max_size() << "\n";
-  }
-  */
+// MAX_SIZE
 
-  // RESIZE
-  {
-    ft::vector<int> myvector;
+{
+  ft::vector<int> myvector;
 
-    // set some initial content:
-    for (int i = 1; i < 10; i++)
-      myvector.push_back(i);
-  
+  // set some content in the vector:
+  for (int i = 0; i < 100; i++)
+    myvector.push_back(i);
 
-    myvector.resize(5);
-    myvector.resize(12);
-    myvector.resize(8, 100);
-/*
-    std::cout << "myvector contains:";
-    for (int i = 0; i < myvector.size(); i++)
-      std::cout << ' ' << myvector[i];
-    std::cout << '\n';*/
+  std::cout << "size: " << myvector.size() << "\n";
+  std::cout << "capacity: " << myvector.capacity() << "\n";
+  std::cout << "max_size: " << myvector.max_size() << "\n";
+}
 
-  }
-/* 
+// RESIZE
+{
+  ft::vector<int> myvector;
+
+  // set some initial content:
+  for (int i = 1; i < 10; i++)
+    myvector.push_back(i);
+
+  myvector.resize(5);
+  myvector.resize(8, 100);
+  myvector.resize(12);
+
+  std::cout << "myvector contains:";
+  for (int i = 0; i < myvector.size(); i++)
+    std::cout << ' ' << myvector[i];
+  std::cout << '\n';
+}
 
   // CAPACITY
   {
@@ -139,9 +148,9 @@ int main()
   // RESERVE
 
   {
-    ft::vector<int>::size_type sz;
+    std::vector<int>::size_type sz;
 
-    ft::vector<int> foo;
+    std::vector<int> foo;
     sz = foo.capacity();
     std::cout << "making foo grow:\n";
     for (int i = 0; i < 100; ++i)
@@ -154,10 +163,10 @@ int main()
       }
     }
 
-    ft::vector<int> bar;
+    std::vector<int> bar;
     sz = bar.capacity();
     bar.reserve(100); // this is the only difference with foo above
-    std::cout << "making bar grow:\n";
+    std::cout << bar.capacity() << " " << bar.size()<< " making bar grow:\n";
     for (int i = 0; i < 100; ++i)
     {
       bar.push_back(i);
@@ -201,7 +210,7 @@ int main()
   // AT()
 
   {
-    ft::vector<int> myvector(10); // 10 zero-initialized ints
+    std::vector<int> myvector(10); // 10 zero-initialized ints
 
     // assign some values:
     for (unsigned i = 0; i < myvector.size(); i++)
@@ -215,7 +224,7 @@ int main()
 
   // FRONT()
   {
-    ft::vector<int> myvector;
+    std::vector<int> myvector;
 
     myvector.push_back(78);
     myvector.push_back(16);
@@ -365,7 +374,7 @@ int main()
   }
   // CLEAR
   {
-    ft::vector<int> myvector;
+    std::vector<int> myvector;
     myvector.push_back(100);
     myvector.push_back(200);
     myvector.push_back(300);
@@ -384,29 +393,29 @@ int main()
       std::cout << ' ' << myvector[i];
     std::cout << '\n';
   }
-  // GET_ALLOCATOR
-  {
-    ft::vector<int> myvector;
-    int *p;
-    unsigned int i;
+// GET_ALLOCATOR
+{
+  ft::vector<int> myvector;
+  int *p;
+  unsigned int i;
 
-    // allocate an array with space for 5 elements using vector's allocator:
-    p = myvector.get_allocator().allocate(5);
+  // allocate an array with space for 5 elements using vector's allocator:
+  p = myvector.get_allocator().allocate(5);
 
-    // construct values in-place on the array:
-    for (i = 0; i < 5; i++)
-      myvector.get_allocator().construct(&p[i], i);
+  // construct values in-place on the array:
+  for (i = 0; i < 5; i++)
+    myvector.get_allocator().construct(&p[i], i);
 
-    std::cout << "The allocated array contains:";
-    for (i = 0; i < 5; i++)
-      std::cout << ' ' << p[i];
-    std::cout << '\n';
+  std::cout << "The allocated array contains:";
+  for (i = 0; i < 5; i++)
+    std::cout << ' ' << p[i];
+  std::cout << '\n';
 
-    // destroy and deallocate:
-    for (i = 0; i < 5; i++)
-      myvector.get_allocator().destroy(&p[i]);
-    myvector.get_allocator().deallocate(p, 5);
-  }
+  // destroy and deallocate:
+  for (i = 0; i < 5; i++)
+    myvector.get_allocator().destroy(&p[i]);
+  myvector.get_allocator().deallocate(p, 5);
+}
 
   // SWAP(VECTOR)
 
@@ -429,8 +438,8 @@ int main()
   }
 
   {
-    ft::vector<int> foo(3, 100); // three ints with a value of 100
-    ft::vector<int> bar(2, 200); // two ints with a value of 200
+    std::vector<int> foo(3, 100); // three ints with a value of 100
+    std::vector<int> bar(2, 200); // two ints with a value of 200
 
     if (foo == bar)
       std::cout << "foo and bar are equal\n";
@@ -445,8 +454,9 @@ int main()
     if (foo >= bar)
       std::cout << "foo is greater than or equal to bar\n";
   }
-  */
+
 }
+*/
 
 /*
 int main()

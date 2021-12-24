@@ -15,7 +15,8 @@ namespace ft
 		int height;
 		T pair;
 
-		Node() : left(NULL), right(NULL), height(0) {}
+		Node() : left(NULL), right(NULL), height(0), parent(nullptr) {}
+
 		Node(Node<T> const &node) : pair(node.pair)
 		{
 			left = node.left;
@@ -240,19 +241,16 @@ namespace ft
 			Node<T> *x;
 			Node<T> *T2;
 			Node<T> *temp_parent;
-
 			x = y->left;
 			T2 = x->right;
 
 			temp_parent = y->parent;
 			y->parent = x;
-
 			x->right = y;
 			x->parent = temp_parent;
 			y->left = T2;
 			if (T2)
 				T2->parent = y;
-
 			x->height = max(height(x->left), height(x->right)) + 1;
 			y->height = max(height(y->left), height(y->right)) + 1;
 
@@ -264,15 +262,14 @@ namespace ft
 			Node<T> *y;
 			Node<T> *T2;
 			Node<T> *temp_parent;
-
 			y = x->right;
 			T2 = y->left;
 
 			temp_parent = x->parent;
 			x->parent = y;
-
 			y->left = x;
 			y->parent = temp_parent;
+
 			x->right = T2;
 			if (T2)
 				T2->parent = x;
@@ -310,7 +307,6 @@ namespace ft
 			}
 			else
 				return root;
-
 			root->height = max(height(root->left), height(root->right)) + 1;
 			int bf = getBalanceFactor(root);
 
@@ -322,13 +318,14 @@ namespace ft
 				}
 				else if (comp(root->left->pair, pair))
 				{
+
 					root->left = left_rotate(root->left);
+
 					return right_rotate(root);
 				}
 			}
 			if (bf < -1)
 			{
-
 				if (comp(root->right->pair, pair))
 				{
 					return left_rotate(root);
@@ -341,7 +338,6 @@ namespace ft
 			}
 			return root;
 		}
-
 
 		Node<T> *insertNode2(Node<T> *root, const T &pair)
 		{
@@ -461,7 +457,6 @@ namespace ft
 			}
 			return false;
 		}
-		
 
 		Node<T> *deleteNode(Node<T> *root, T key)
 		{
@@ -493,7 +488,6 @@ namespace ft
 						root->height = temp->height;
 						// root->pair = temp->pair;
 						root->parent = temp1;
-
 					}
 					m_allocate.destroy(temp);
 					m_allocate.deallocate(temp, 1);

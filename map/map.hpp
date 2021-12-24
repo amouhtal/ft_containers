@@ -282,7 +282,6 @@ namespace ft
 					 const allocator_type &alloc = allocator_type()) : m_comp(comp), m_allocator(alloc), _tree(nullptr)
 		{
 			end_tree = new Node();
-			end_tree->height = -66;
 		}
 
 		iterator begin()
@@ -388,11 +387,14 @@ namespace ft
 		pair<iterator, bool> insert(const value_type &val)
 		{
 			bool bl = false;
+
 			iterator ret(_avl.search_by_key(val, bl, _tree));
+
 			if (bl == true)
 			{
 				return ft::make_pair(ret, false);
 			}
+			
 			_tree = _avl.insertNode(_tree, val);
 			_tree->parent = end_tree;
 			end_tree->left = _tree;

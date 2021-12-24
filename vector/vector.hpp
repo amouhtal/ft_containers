@@ -254,6 +254,11 @@ namespace ft
 		{
 			return (this->ptr != rhs.ptr);
 		}
+
+		bool operator<(const MyIterator &rhs) const
+		{
+			return (this->ptr < rhs.ptr);
+		}
 	};
 
 	template <typename T, class Alloc = std::allocator<T> >
@@ -370,9 +375,9 @@ namespace ft
 
 		void resize(size_type __n, value_type val = value_type())
 		{
-
-			T *new_container;
-			if (__n > _capacity)
+			pointer new_container;
+			size_type old_cap = _capacity;
+			if (__n >= _capacity)
 			{
 				_capacity *= 2;
 				if (_capacity == 0)
@@ -382,7 +387,6 @@ namespace ft
 			}
 			if (_size > __n)
 				_size = __n;
-			std::cout << _capacity << std::endl;
 			new_container = _alloc.allocate(_capacity);
 
 			for (size_t i = 0; i < _size; i++)
@@ -393,17 +397,8 @@ namespace ft
 			{
 				_alloc.destroy(_container + i);
 			}
-			// std::cout << _capacity << "<->" << _size << std::endl;
-			// std::cout << &_container  << " " << &new_container << std::endl;
-			// _container = _alloc.allocate(_capacity);
-			// *this = ;
-			// delete[] _container;
-			// _container = new_container;
-			for (size_t i = 0; i < _size; i++)
-			{
-				_container[i] = new_container[i];
-			}
-			// _container = new_container;
+			_alloc.deallocate(_container, old_cap);
+			_container = new_container;
 		}
 
 		size_type capacity() const
@@ -437,6 +432,8 @@ namespace ft
 		void reserve(size_type n)
 		{
 			T *new_container;
+			size_type old_cap = _capacity;
+
 			if (n > _capacity)
 			{
 				_capacity = n;
@@ -445,6 +442,8 @@ namespace ft
 				{
 					new_container[i] = _container[i];
 				}
+				_alloc.deallocate(_container, old_cap);
+				_container = new_container; 
 			}
 		}
 
@@ -468,8 +467,6 @@ namespace ft
 
 		const_reference at(size_type n) const
 		{
-			puts(
-				"with const");
 			if (n < 0 || n > _size)
 				throw std::out_of_range("index out of bounds");
 			else
@@ -697,6 +694,10 @@ namespace ft
 				i++;
 			}
 			_size = 0;
+		}
+		allocator_type get_allocator() const
+		{
+			return allocator_type();
 		}
 		~vector(){};
 		vector &operator=(const vector &rhs)
