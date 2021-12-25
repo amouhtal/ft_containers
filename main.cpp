@@ -14,9 +14,7 @@ int main()
   {
     int nbr1 = rand();
     int nbr2 = rand();
-    std::cout << nbr1 << " " << i << std::endl;
-    if (i == 183)
-      map.printf_map();
+    
         map.insert(ft::make_pair<int, int>(nbr1, nbr2));
   }
 }

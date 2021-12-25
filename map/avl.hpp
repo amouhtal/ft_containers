@@ -15,7 +15,7 @@ namespace ft
 		int height;
 		T pair;
 
-		Node() : left(NULL), right(NULL), height(0), parent(nullptr) {}
+		Node() : left(NULL), right(NULL), height(1), parent(nullptr) {}
 
 		Node(Node<T> const &node) : pair(node.pair)
 		{
@@ -309,7 +309,7 @@ namespace ft
 				return root;
 			root->height = max(height(root->left), height(root->right)) + 1;
 			int bf = getBalanceFactor(root);
-
+			std::cout << bf << "<-bf " << std::endl;
 			if (bf > 1)
 			{
 				if (comp(pair, root->left->pair))
