@@ -42,7 +42,6 @@ int main()
     std::cout << '\n';
   }
   {
-  */
   // BEGIN/END
   {
     ft::vector<int> myvector;
@@ -54,6 +53,7 @@ int main()
       std::cout << ' ' << *it;
     std::cout << '\n';
   }
+  */
 
   /*
   // RBEGIN/REND
