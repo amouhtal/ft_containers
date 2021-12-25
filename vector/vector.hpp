@@ -705,7 +705,8 @@ namespace ft
 			_alloc = rhs._alloc;
 			_size = rhs._size;
 			_capacity = rhs._capacity;
-			puts("\n------------------im here");
+			// puts("\n------------------im here");
+			_container = _alloc.allocate(_capacity);
 			for (size_t i = 0; i < _size; i++)
 			{
 				_container[i] = rhs._container[i];

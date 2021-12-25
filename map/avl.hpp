@@ -251,8 +251,8 @@ namespace ft
 			y->left = T2;
 			if (T2)
 				T2->parent = y;
-			x->height = max(height(x->left), height(x->right)) + 1;
 			y->height = max(height(y->left), height(y->right)) + 1;
+			x->height = max(height(x->left), height(x->right)) + 1;
 
 			return x;
 		}
@@ -309,9 +309,9 @@ namespace ft
 				return root;
 			root->height = max(height(root->left), height(root->right)) + 1;
 			int bf = getBalanceFactor(root);
-			std::cout << bf << "<-bf " << std::endl;
 			if (bf > 1)
 			{
+				// std::cout << bf << "<-bf " << std::endl;
 				if (comp(pair, root->left->pair))
 				{
 					return right_rotate(root);

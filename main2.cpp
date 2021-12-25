@@ -100,7 +100,6 @@ int main(int argc, char **argv)
 		sum += map_int[access];
 	}
 	std::cout << "should be constant with the same seed: " << sum << std::endl;
-
 	{
 		ft::map<int, int> copy = map_int;
 	}
