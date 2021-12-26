@@ -284,6 +284,20 @@ namespace ft
 			end_tree = new Node();
 		}
 
+		template <class InputIterator>
+		map(InputIterator first, InputIterator last,
+			const key_compare &comp = key_compare(),
+			const allocator_type &alloc = allocator_type()) : m_comp(comp), m_allocator(alloc),_tree(nullptr)
+		{
+			end_tree = new Node();
+			insert(first, last);
+		}
+
+		map(const map &x) : m_comp(x.m_comp), m_allocator(x.m_allocator),_tree(x._tree)
+		{
+			end_tree = new Node();
+			insert(x.begin(), x.end());
+		}
 		iterator begin()
 		{
 			iterator it(_avl.most_left(_tree));
@@ -347,10 +361,12 @@ namespace ft
 				return false;
 			return true;
 		}
+
 		MapKeyCompare value_comp() const
 		{
 			return MapKeyCompare(m_comp);
 		}
+
 		iterator find(const key_type &k)
 		{
 			bool exist;
@@ -394,7 +410,7 @@ namespace ft
 			{
 				return ft::make_pair(ret, false);
 			}
-			
+
 			_tree = _avl.insertNode(_tree, val);
 			_tree->parent = end_tree;
 			end_tree->left = _tree;
@@ -425,8 +441,11 @@ namespace ft
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last)
 		{
+
 			for (; first != last; first++)
+			{
 				insert(*first);
+			}
 		}
 
 		void printf_map()

@@ -22,6 +22,16 @@ namespace ft = std;
 //         map.insert(ft::make_pair<int, int>(nbr1, nbr2));
 //   }
 // }
+
+bool fncomp(char lhs, char rhs) { return lhs < rhs; }
+
+struct classcomp
+{
+  bool operator()(const char &lhs, const char &rhs) const
+  {
+    return lhs < rhs;
+  }
+};
 int main()
 {
   // constructors
@@ -464,10 +474,30 @@ int main()
   }
   */
 
-  /*
-  int main()
+  // int main()
+  // {
+  // -------- MAP TESTS -------------- //
+
   {
-    // -------- MAP TESTS -------------- //
+    ft::map<char, int> first;
+
+    first['a'] = 10;
+    first['b'] = 30;
+    first['c'] = 50;
+    first['d'] = 70;
+
+    ft::map<char, int> second(first.begin(), first.end());
+    ft::map<char, int> third(second);
+    ft::map<char, int>::iterator it;
+
+    it = third.begin();
+    std::cout << it->first << std::endl;
+    ft::map<char, int, classcomp> fourth; // class as Compare
+
+    bool (*fn_pt)(char, char) = fncomp;
+    ft::map<char, int, bool (*)(char, char)> fifth(fn_pt); // function pointer as Compare
+  }
+  /*
     {
       ft::map<char, int> mymap;
 
@@ -877,4 +907,4 @@ int main()
 
     return 0;
   */
-  }
+}

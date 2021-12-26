@@ -443,7 +443,7 @@ namespace ft
 					new_container[i] = _container[i];
 				}
 				_alloc.deallocate(_container, old_cap);
-				_container = new_container; 
+				_container = new_container;
 			}
 		}
 
@@ -556,7 +556,8 @@ namespace ft
 
 			size_t i = 0;
 
-			temp = *position;
+			if (position.base())
+				temp = *position;
 			it = this->begin();
 
 			while (it != position) //&& it != end())

@@ -35,18 +35,19 @@ namespace ft
 			height = 1;
 		}
 
-		// Node<T> &operator=(Node<T> const &rhs)
-		// {
-		// 	if (this != &rhs)
-		// 	{
-		// 		left = rhs.left;
-		// 		right = rhs.right;
-		// 		parent = rhs.parent;
-		// 		height = rhs.height;
-		// 		pair = rhs.pair;
-		// 	}
-		// 	return *this;
-		// }
+		Node<T> &operator=(Node<T> const &rhs)
+		{
+			if (this != &rhs)
+			{
+				left = rhs.left;
+				right = rhs.right;
+				parent = rhs.parent;
+				height = rhs.height;
+				
+				// pair = rhs.pair;
+			}
+			return *this;
+		}
 
 		bool operator==(Node<T> const &rhs)
 		{
