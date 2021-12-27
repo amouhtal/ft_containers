@@ -8,18 +8,6 @@
 
 namespace ft
 {
-
-	// template <class Iterator>
-	// class map_reverse_iterator
-	// {
-	// 	typedef Iterator iterator_type;
-	// 	typedef typename iterator_traits<Iterator>::iterator_category iterator_category;
-	// 	typedef typename iterator_traits<Iterator>::value_type value_type;
-	// 	typedef typename iterator_traits<Iterator>::difference_type difference_type;
-	// 	typedef typename iterator_traits<Iterator>::pointer pointer;
-	// 	typedef typename iterator_traits<Iterator>::reference reference;
-	// };
-
 	template <typename iterator>
 	class map_reverse_iterator
 	{
@@ -216,7 +204,6 @@ namespace ft
 	public:
 		typedef Key key_type;
 		typedef T mapped_type;
-
 		typedef ft::pair<const key_type, mapped_type> value_type;
 		typedef Compare key_compare;
 		typedef Alloc allocator_type;
@@ -226,13 +213,18 @@ namespace ft
 		typedef typename allocator_type::const_pointer const_pointer;
 		typedef typename iterator_traits<pointer>::difference_type difference_type;
 		typedef size_t size_type;
+		typedef Node<value_type> Node;
+		typedef Node *NodePtr;
+		typedef MapIterator<value_type, NodePtr> iterator;
+		typedef MapIterator<const value_type, NodePtr> const_iterator;
+		typedef map_reverse_iterator<iterator> reverse_iterator;
+		typedef map_reverse_iterator<const_iterator> const_reverse_iterator;
 
 		class MapKeyCompare : public std::binary_function<ft::pair<key_type, mapped_type>, value_type, bool>
 		{
 			friend class map;
 
 		protected:
-			// typedef Compare value_compare;
 			key_compare _comp;
 			explicit MapKeyCompare(key_compare comp) : _comp(comp) {}
 
@@ -244,31 +236,25 @@ namespace ft
 			{
 				return (_comp(a.first, b.first));
 			}
+
 			bool operator()(const value_type &a, const key_type &b) const
 			{
 				return (_comp(a.first, b));
 			}
+
 			bool operator()(const key_type &a, const value_type &b) const
 			{
 				return (_comp(a, b.first));
 			}
+
 			bool operator()(const key_type &a, const key_type &b) const
 			{
 				return (_comp(a, b));
 			}
 		};
 
-		typedef Node<value_type> Node;
-		typedef Node *NodePtr;
-
-		typedef MapIterator<value_type, NodePtr> iterator;
-		typedef MapIterator<const value_type, NodePtr> const_iterator;
-		typedef map_reverse_iterator<iterator> reverse_iterator;
-		typedef map_reverse_iterator<const_iterator> const_reverse_iterator;
-		// typedef MapIterator<const_value_type, MapKeyCompare> const_iterator;
-
+	public:
 		typedef Avl<value_type, MapKeyCompare> Avl_algo;
-		// typedef typename Avl<value_type, MapKeyCompare>::mynode Node;
 
 	private:
 		MapKeyCompare m_comp;
@@ -287,13 +273,13 @@ namespace ft
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last,
 			const key_compare &comp = key_compare(),
-			const allocator_type &alloc = allocator_type()) : m_comp(comp), m_allocator(alloc),_tree(nullptr)
+			const allocator_type &alloc = allocator_type()) : m_comp(comp), m_allocator(alloc), _tree(nullptr)
 		{
 			end_tree = new Node();
 			insert(first, last);
 		}
 
-		map(const map &x) : m_comp(x.m_comp), m_allocator(x.m_allocator),_tree(x._tree)
+		map(const map &x) : m_comp(x.m_comp), m_allocator(x.m_allocator), _tree(x._tree)
 		{
 			end_tree = new Node();
 			insert(x.begin(), x.end());
@@ -462,13 +448,8 @@ namespace ft
 		{
 			bool b = true;
 			Node *pos = _avl.search_by_key(make_pair(k, mapped_type()), b, _tree);
-			//  it(pos);
 			erase(iterator(pos));
-			// if(_tree->parent == end_tree )
-			// std::cout << "hello" << std::endl;
-			// exit(1);
-			// _tree = );
-			return 5;
+			return 1;
 		}
 
 		void erase(iterator first, iterator last)
@@ -488,10 +469,6 @@ namespace ft
 				ptr = _avl.newNode((first.base()->pair));
 				erase(temp);
 				first = iterator(_avl.search_by_key(ptr->pair, bl, _tree));
-				// if (first->first == b)
-				// {
-				// 	std::cout << "l " << b << std::endl;
-				// }
 			}
 		}
 
@@ -609,23 +586,11 @@ namespace ft
 			return allocator_type();
 		}
 
-		// template <class InputIterator>
-		// void insert(InputIterator first, InputIterator last)
-		// {
-
-		// }
+		~map()
+		{
+			this->clear();
+		}
 	};
 }
 
 #endif
-
-/*
-
-assigning to
-'ft::map<char, int, std::__1::less<char>, std::__1::allocator<ft::pair<const char, int> > >::NodePtr
-' (aka 'Node<pair<const char, int> > *') from incompatible
-	  type 'Node<ft::pair<const char, int> >'
-	node = _avl.insertNode2(position.base(), val);
-											   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-*/

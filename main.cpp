@@ -1,6 +1,7 @@
 #if 0 // CREATE A REAL STL EXAMPLE
-#include <map>
 #include <stack>
+#include <iostream>
+#include <map>
 #include <vector>
 namespace ft = std;
 #else
@@ -32,6 +33,7 @@ struct classcomp
     return lhs < rhs;
   }
 };
+
 int main()
 {
   // constructors
@@ -51,6 +53,8 @@ int main()
       std::cout << ' ' << *it;
     std::cout << '\n';
   }
+  */
+  /*
   {
   // BEGIN/END
   {
@@ -63,9 +67,7 @@ int main()
       std::cout << ' ' << *it;
     std::cout << '\n';
   }
-  */
 
-  /*
   // RBEGIN/REND
   {
     ft::vector<int> myvector(5); // 5 default-constructed ints
@@ -164,9 +166,9 @@ int main()
     // RESERVE
 
     {
-      std::vector<int>::size_type sz;
+      ft::vector<int>::size_type sz;
 
-      std::vector<int> foo;
+      ft::vector<int> foo;
       sz = foo.capacity();
       std::cout << "making foo grow:\n";
       for (int i = 0; i < 100; ++i)
@@ -179,7 +181,7 @@ int main()
         }
       }
 
-      std::vector<int> bar;
+      ft::vector<int> bar;
       sz = bar.capacity();
       bar.reserve(100); // this is the only difference with foo above
       std::cout << bar.capacity() << " " << bar.size()<< " making bar grow:\n";
@@ -226,7 +228,7 @@ int main()
     // AT()
 
     {
-      std::vector<int> myvector(10); // 10 zero-initialized ints
+      ft::vector<int> myvector(10); // 10 zero-initialized ints
 
       // assign some values:
       for (unsigned i = 0; i < myvector.size(); i++)
@@ -240,7 +242,7 @@ int main()
 
     // FRONT()
     {
-      std::vector<int> myvector;
+      ft::vector<int> myvector;
 
       myvector.push_back(78);
       myvector.push_back(16);
@@ -390,7 +392,7 @@ int main()
     }
     // CLEAR
     {
-      std::vector<int> myvector;
+      ft::vector<int> myvector;
       myvector.push_back(100);
       myvector.push_back(200);
       myvector.push_back(300);
@@ -454,8 +456,8 @@ int main()
     }
 
     {
-      std::vector<int> foo(3, 100); // three ints with a value of 100
-      std::vector<int> bar(2, 200); // two ints with a value of 200
+      ft::vector<int> foo(3, 100); // three ints with a value of 100
+      ft::vector<int> bar(2, 200); // two ints with a value of 200
 
       if (foo == bar)
         std::cout << "foo and bar are equal\n";
@@ -473,6 +475,7 @@ int main()
 
   }
   */
+  /*
 
   // int main()
   // {
@@ -497,18 +500,6 @@ int main()
     bool (*fn_pt)(char, char) = fncomp;
     ft::map<char, int, bool (*)(char, char)> fifth(fn_pt); // function pointer as Compare
   }
-  /*
-    {
-      ft::map<char, int> mymap;
-
-      mymap['b'] = 100;
-      mymap['a'] = 200;
-      mymap['c'] = 300;
-
-      // show content:
-      for (ft::map<char, int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
-        std::cout << it->first << " => " << it->second << '\n';
-    }
 
     {
       ft::map<char, int> mymap;
@@ -888,8 +879,8 @@ int main()
 
 
 
-  }*/
-  /*
+  }
+ 
   int main()
   {
     ft::stack<int> mystack;
@@ -906,5 +897,8 @@ int main()
     std::cout << '\n';
 
     return 0;
+  }
+  */
+  /*
   */
 }

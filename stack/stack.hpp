@@ -17,7 +17,6 @@ namespace ft
 
 		stack &operator =(const stack &other)
 		{
-			puts("here");
 			content = other.content;
 		}
 		explicit stack(const container_type &ctnr = container_type())
@@ -57,6 +56,7 @@ namespace ft
 
 		container_type c;
 	};
+
 	template <class _T, class C>
 	bool operator==(const stack<_T, C> &lhs, const stack<_T, C> &rhs)
 	{
@@ -87,18 +87,6 @@ namespace ft
 	{
 		return (lhs >= rhs);
 	}
-	// template <class _T, class C>
-	// bool operator==(const stack<_T, C> &lhs, const stack<_T, C> &rhs) { return lhs.c == rhs.c; };
-	// template <class _T, class C>
-	// bool operator!=(const stack<_T, C> &lhs, const stack<_T, C> &rhs) { return lhs.c != rhs.c; };
-	// template <class _T, class C>
-	// bool operator<(const stack<_T, C> &lhs, const stack<_T, C> &rhs) { return lhs.c < rhs.c; };
-	// template <class _T, class C>
-	// bool operator<=(const stack<_T, C> &lhs, const stack<_T, C> &rhs) { return lhs.c <= rhs.c; };
-	// template <class _T, class C>
-	// bool operator>(const stack<_T, C> &lhs, const stack<_T, C> &rhs) { return lhs.c > rhs.c; };
-	// template <class _T, class C>
-	// bool operator>=(const stack<_T, C> &lhs, const stack<_T, C> &rhs) { return lhs.c >= rhs.c; };
 }
 
 #endif

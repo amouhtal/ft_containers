@@ -84,7 +84,6 @@ namespace ft
 
 		reference operator*() const
 		{
-			// _Iter __tmp = current; return *--__tmp;
 			iterator_type _tmp = it;
 			return *--_tmp;
 		}
@@ -97,7 +96,6 @@ namespace ft
 		reverse_iterator &operator++()
 		{
 			it--;
-			// ++(*this);
 			return *this;
 		}
 
@@ -138,11 +136,6 @@ namespace ft
 			return *this;
 		}
 
-		// bool opearator != (const reverse_iterator &other)
-		// {
-		// 	return (this->it != other.it);
-		// }
-
 		bool operator!=(const reverse_iterator &rhs)
 		{
 			return (this->it != rhs.it);
@@ -170,7 +163,6 @@ namespace ft
 	public:
 		MyIterator() : ptr(nullptr) {}
 		MyIterator(pointer it) : ptr(it) {}
-		// MyIterator(const MyIterator &mit) : ptr(mit.ptr) {}
 		template <typename Iter>
 		MyIterator(const MyIterator<Iter> &mit) : ptr(mit.base()) {}
 
@@ -234,12 +226,6 @@ namespace ft
 			return (*this);
 		}
 
-		// MyIterator operator-(ptrdiff_t __n)
-		// {
-		// 	ptr - __n;
-		// 	return (*this);
-		// }
-
 		reference operator[](ptrdiff_t __n)
 		{
 			return (ptr[__n]);
@@ -265,7 +251,6 @@ namespace ft
 	class vector
 	{
 	public:
-		// Member types
 		typedef T value_type;
 		typedef Alloc allocator_type;
 		typedef typename allocator_type::reference reference;
@@ -322,13 +307,11 @@ namespace ft
 
 		const_iterator begin() const
 		{
-			// iterator ret(&_container[0]);
 			return const_iterator(_container);
 		}
 
 		iterator begin()
 		{
-			// iterator ret(&_container[0]);
 			return iterator(&_container[0]);
 		}
 
@@ -361,7 +344,6 @@ namespace ft
 		{
 			return const_reverse_iterator(this->begin());
 		}
-		// NOTE Modifiers :
 
 		size_type size() const
 		{
@@ -502,13 +484,7 @@ namespace ft
 			for (; first != last; first++)
 			{
 				lenght++;
-				// if (std::string::npos == lenght)
-				// 	break;
 			}
-			// if (std::string::npos == lenght)
-			// {
-			// 	throw "vector";
-			// }
 			return (lenght);
 		}
 
@@ -560,7 +536,7 @@ namespace ft
 				temp = *position;
 			it = this->begin();
 
-			while (it != position) //&& it != end())
+			while (it != position)
 			{
 				i++;
 				it++;
@@ -696,17 +672,19 @@ namespace ft
 			}
 			_size = 0;
 		}
+
 		allocator_type get_allocator() const
 		{
 			return allocator_type();
 		}
+
 		~vector(){};
+
 		vector &operator=(const vector &rhs)
 		{
 			_alloc = rhs._alloc;
 			_size = rhs._size;
 			_capacity = rhs._capacity;
-			// puts("\n------------------im here");
 			_container = _alloc.allocate(_capacity);
 			for (size_t i = 0; i < _size; i++)
 			{
@@ -714,23 +692,8 @@ namespace ft
 			}
 			return (*this);
 		}
-		// bool operator==(const vector &rhs)
-		// {
-		// 	return (*this == rhs);
-		// }
-		// bool operator!=(const vector &rhs)
-		// {
-		// 	return (*this != rhs);
-		// }
-		// bool operator>(const vector &rhs)
-		// {
-		// 	return (*this > rhs);
-		// }
-		// bool operator<(const vector &rhs)
-		// {
-		// 	return (*this > rhs);
-		// }
 	};
+	
 	template <class T, class Alloc>
 	bool operator==(const vector<T, Alloc> &lhs,
 					const vector<T, Alloc> &rhs)
