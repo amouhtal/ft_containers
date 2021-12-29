@@ -9,22 +9,11 @@ namespace ft = std;
 #include "stack/stack.hpp"
 #include "vector/vector.hpp"
 #endif
-// #include <utility>
-// using namespace std
-// int main()
-// {
 
-//   ft::map<int, int> map;
-//   for (size_t i = 0; i < 300; i++)
-//   {
-//     int nbr1 = rand();
-//     int nbr2 = rand();
-
-//         map.insert(ft::make_pair<int, int>(nbr1, nbr2));
-//   }
-// }
-
-bool fncomp(char lhs, char rhs) { return lhs < rhs; }
+bool fncomp(char lhs, char rhs)
+{
+  return lhs < rhs;
+}
 
 struct classcomp
 {
@@ -36,7 +25,6 @@ struct classcomp
 
 int main()
 {
-  // constructors
   /*
   {
     ft::vector<int> first;                               // empty vector of ints
@@ -53,13 +41,11 @@ int main()
       std::cout << ' ' << *it;
     std::cout << '\n';
   }
-  */
-  /*
-  {
   // BEGIN/END
   {
     ft::vector<int> myvector;
     for (int i = 1; i <= 5; i++)
+
       myvector.push_back(i);
 
     std::cout << "myvector contains:";
@@ -127,7 +113,7 @@ int main()
     myvector.resize(12);
 
     std::cout << "myvector contains:";
-    for (int i = 0; i < myvector.size(); i++)
+    for (size_t i = 0; i < myvector.size(); i++)
       std::cout << ' ' << myvector[i];
     std::cout << '\n';
   }
@@ -149,7 +135,7 @@ int main()
 
     {
       ft::vector<int> myvector;
-      int sum(0);
+      int sum = 0;
 
       for (int i = 1; i <= 10; i++)
         myvector.push_back(i);
@@ -225,6 +211,7 @@ int main()
     }
 
 
+
     // AT()
 
     {
@@ -239,7 +226,6 @@ int main()
         std::cout << ' ' << myvector.at(i);
       std::cout << '\n';
     }
-
     // FRONT()
     {
       ft::vector<int> myvector;
@@ -352,6 +338,7 @@ int main()
     }
 
 
+  */
     // ERASE
     {
       ft::vector<int> myvector;
@@ -373,6 +360,7 @@ int main()
     }
 
     // SWAP
+  /*
 
     {
       ft::vector<int> foo(3, 100); // three ints with a value of 100
@@ -438,7 +426,6 @@ int main()
     // SWAP(VECTOR)
 
     {
-      unsigned int i;
       ft::vector<int> foo(3, 100); // three ints with a value of 100
       ft::vector<int> bar(5, 200); // five ints with a value of 200
 
@@ -474,8 +461,8 @@ int main()
     }
 
   }
-  */
-  /*
+
+
 
   // int main()
   // {
@@ -877,28 +864,21 @@ int main()
       mymap.get_allocator().deallocate(p, 5);
     }
 
+  ft::stack<int> mystack;
 
+  for (int i = 0; i < 5; ++i)
+    mystack.push(i);
 
-  }
- 
-  int main()
+  std::cout << "size: " << mystack.size() << '\n';
+  std::cout << "Popping out elements...";
+  while (!mystack.empty())
   {
-    ft::stack<int> mystack;
-
-    for (int i = 0; i < 5; ++i)
-      mystack.push(i);
-
-    std::cout << "Popping out elements...";
-    while (!mystack.empty())
-    {
-      std::cout << ' ' << mystack.top();
-      mystack.pop();
-    }
-    std::cout << '\n';
-
-    return 0;
+    std::cout << ' ' << mystack.top();
+    mystack.pop();
   }
-  */
-  /*
-  */
+  std::cout << '\n';
+  std::cout << "size: " << mystack.size() << '\n';
+
+*/
+  return 0;
 }

@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "../vector/vector.hpp"
-#include "../vector/utils/utils.hpp"
+#include "../utils/utils.hpp"
 #include "avl.hpp"
 
 namespace ft
@@ -128,18 +128,6 @@ namespace ft
 		{
 			return (_tree->pair);
 		}
-
-		// iterator &operator=(iterator const &rhs)
-		// {
-		// 	this->_tree = rhs._tree;
-		// 	return (*this);
-		// }
-
-		// Node &operator=(Node const &rhs)
-		// {
-		// 	this->_tree = rhs;
-		// 	return (*this);
-		// }
 
 		MapIterator &operator++()
 		{
@@ -284,15 +272,18 @@ namespace ft
 			end_tree = new Node();
 			insert(x.begin(), x.end());
 		}
+
 		iterator begin()
 		{
 			iterator it(_avl.most_left(_tree));
 			return (it);
 		}
+
 		key_compare key_comp() const
 		{
 			return key_compare();
 		}
+
 		const_iterator begin() const
 		{
 			const_iterator it(_avl.most_left(_tree));
@@ -457,7 +448,6 @@ namespace ft
 			iterator temp;
 			NodePtr ptr;
 			bool bl;
-			key_type a = first->first;
 			key_type b = last->first;
 
 			while (first->first != b)

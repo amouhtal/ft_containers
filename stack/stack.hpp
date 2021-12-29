@@ -1,10 +1,9 @@
 #ifndef __STACK_HPP
 #define __STACK_HPP
-#include <deque>
 
 namespace ft
 {
-	template <class T, class Container = ft::vector<T> >
+	template <class T, class Container = std::vector<T> >
 	class stack
 	{
 	protected:

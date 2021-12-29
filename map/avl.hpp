@@ -1,9 +1,8 @@
 #include "map.hpp"
-#include "../vector/utils/utils.hpp"
+#include "../utils/utils.hpp"
 
 namespace ft
 {
-
 	template <typename T>
 	class Node
 	{
@@ -15,7 +14,7 @@ namespace ft
 		int height;
 		T pair;
 
-		Node() : left(NULL), right(NULL), height(1), parent(nullptr) {}
+		Node() : left(NULL), right(NULL), parent(nullptr), height(1) {}
 
 		Node(Node<T> const &node) : pair(node.pair)
 		{
@@ -23,12 +22,10 @@ namespace ft
 			right = node.right;
 			height = node.height;
 			parent = node.parent;
-			// pair = node.pair;
 		}
 
 		Node(T const &pair) : pair(pair)
 		{
-			// this->pair = pair;
 			left = NULL;
 			right = NULL;
 			parent = NULL;
@@ -43,8 +40,6 @@ namespace ft
 				right = rhs.right;
 				parent = rhs.parent;
 				height = rhs.height;
-				
-				// pair = rhs.pair;
 			}
 			return *this;
 		}
@@ -115,11 +110,11 @@ namespace ft
 		}
 		return root;
 	}
+
 	template <class T, class Comp, typename Alloc = std::allocator<T> >
 	class Avl
 	{
 	public:
-		// typedef Alloc allocator_type;
 		typedef Node<T> mynode;
 		typedef typename Alloc::template rebind<Node<T> >::other allocator_type;
 		Node<T> *ptr;
@@ -132,7 +127,6 @@ namespace ft
 
 		Avl(Node<T> &p) : ptr(p)
 		{
-			// std::cout << ptr->pair.first << "<-- here\n";
 		}
 
 		size_t size2(Node<T> *root)
@@ -194,8 +188,6 @@ namespace ft
 		{
 			if (ptr != nullptr)
 			{
-				// if (ptr->parent)
-				// 	std::cout << "\tp: " << ptr->parent->pair.first;
 				std::cout << indent;
 				if (last)
 				{
@@ -217,7 +209,6 @@ namespace ft
 		{
 			Node<T> *node = m_allocate.allocate(1);
 			m_allocate.construct(node, pair);
-			// node->pair = pair;
 			node->parent = nullptr;
 			node->left = nullptr;
 			node->right = nullptr;
@@ -312,7 +303,6 @@ namespace ft
 			int bf = getBalanceFactor(root);
 			if (bf > 1)
 			{
-				// std::cout << bf << "<-bf " << std::endl;
 				if (comp(pair, root->left->pair))
 				{
 					return right_rotate(root);
@@ -369,9 +359,9 @@ namespace ft
 			if (root == nullptr)
 				return nullptr;
 			if (comp(pair, root->pair))
-				Node<T> *ret = balance_tree(root->left, pair);
+				balance_tree(root->left, pair);
 			else if (comp(root->pair, pair))
-				Node<T> *ret = insertNode(root->right, pair);
+				insertNode(root->right, pair);
 			else
 				return root;
 
@@ -405,11 +395,6 @@ namespace ft
 			}
 			return root;
 		}
-
-		// void insert(T pair)
-		// {
-		// 	ptr = insertNode(ptr, pair);
-		// }
 
 		Node<T> *search_by_key(T pair, bool &bl, Node<T> *ptr2)
 		{
@@ -461,7 +446,6 @@ namespace ft
 
 		Node<T> *deleteNode(Node<T> *root, T key)
 		{
-			// Find the node and delete it
 			if (root == NULL)
 				return root;
 			if (comp(key, root->pair))
@@ -475,24 +459,20 @@ namespace ft
 					Node<T> *temp = root->left ? root->left : root->right;
 					if (temp == NULL)
 					{
-						// std::cout << "root : " << temp->pair.first << std::endl;
 						temp = root;
 						root = NULL;
 					}
 					else
 					{
-						// *root = *temp;
 						Node<T> *temp1 = root->parent;
 						m_allocate.construct(root, temp->pair);
 						root->left = temp->left;
 						root->right = temp->right;
 						root->height = temp->height;
-						// root->pair = temp->pair;
 						root->parent = temp1;
 					}
 					m_allocate.destroy(temp);
 					m_allocate.deallocate(temp, 1);
-					// free(temp);
 				}
 				else
 				{
@@ -500,10 +480,6 @@ namespace ft
 
 					Node<T> *new_node = m_allocate.allocate(1);
 					m_allocate.construct(new_node, temp->pair);
-					// root->left = new_node->left;
-					// root->right = new_node->right;
-					// root->parent = new_node->parent;
-					// root->height = new_node->height;
 					new_node->parent = root->parent;
 					new_node->left = root->left;
 					new_node->right = root->right;
@@ -518,20 +494,16 @@ namespace ft
 						root->parent->left = new_node;
 					else if (root == root->parent->right)
 						root->parent->right = new_node;
-					// if (root-)
 					root->left = nullptr;
 					root->right = nullptr;
 					root->parent = nullptr;
-					// m_allocate.construct(root, temp->pair);
 					root = new_node;
-					// root->pair = temp->pair;
 					root->right = deleteNode(root->right, temp->pair);
 				}
 			}
 			if (root == NULL)
 				return root;
-			// Update the balance factor of each node and
-			// balance the tree
+
 			root->height = 1 + max(height(root->left),
 								   height(root->right));
 			int balanceFactor = getBalanceFactor(root);
@@ -564,7 +536,6 @@ namespace ft
 
 		Node<T> *eraseNode(Node<T> *root, T key)
 		{
-			// Find the node and delete it
 			if (root == NULL)
 				return root;
 			if (comp(key, root->pair))
@@ -595,8 +566,6 @@ namespace ft
 			if (root == NULL)
 				return root;
 
-			// Update the balance factor of each node and
-			// balance the tree
 			root->height = 1 + max(height(root->left),
 								   height(root->right));
 			int balanceFactor = getBalanceFactor(root);

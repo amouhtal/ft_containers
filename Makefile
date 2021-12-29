@@ -5,13 +5,13 @@ SRCS = main.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 %.o:%.cpp *.hpp
-	$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	 $(CC) $(FLAGS) $(OBJS) -o $(NAME) 
+	@$(CC) $(FLAGS) $(OBJS) -o $(NAME) 
 clean :
-	rm -rf $(OBJS)
+	@rm -rf $(OBJS)
 fclean : clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 re : fclean all

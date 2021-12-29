@@ -3,53 +3,11 @@
 
 #include <iostream>
 #include "enable_if.hpp"
-#include "utils/utils.hpp"
-#include "reverse_iterator.hpp"
-#include "iterator.hpp"
-#include "member_function.hpp"
-
+#include "../utils/utils.hpp"
+#include <iostream>
+#include "../iterators_traits.hpp"
 namespace ft
 {
-	template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T *, class Reference = T &>
-	struct iterator
-	{
-		typedef T value_type;
-		typedef Distance difference_type;
-		typedef Pointer pointer;
-		typedef Reference reference;
-		typedef Category iterator_category;
-	};
-
-	template <class Iterator>
-	struct iterator_traits
-	{
-		typedef typename Iterator::difference_type difference_type;
-		typedef typename Iterator::value_type value_type;
-		typedef typename Iterator::pointer pointer;
-		typedef typename Iterator::reference reference;
-		typedef typename Iterator::iterator_category iterator_category;
-	};
-
-	template <class T>
-	struct iterator_traits<T *>
-	{
-		typedef ptrdiff_t difference_type;
-		typedef T value_type;
-		typedef T *pointer;
-		typedef T &reference;
-		typedef typename std::random_access_iterator_tag iterator_category;
-	};
-
-	template <class T>
-	struct iterator_traits<const T *>
-	{
-		typedef ptrdiff_t difference_type;
-		typedef T value_type;
-		typedef const T *pointer;
-		typedef const T &reference;
-		typedef typename std::random_access_iterator_tag iterator_category;
-	};
-
 	template <class Iterator>
 	class reverse_iterator
 	{
@@ -182,7 +140,7 @@ namespace ft
 			return *this;
 		}
 
-		MyIterator operator+(ptrdiff_t __n)
+		MyIterator operator+(difference_type __n)
 		{
 			ptr += __n;
 			return (*this);
@@ -195,13 +153,13 @@ namespace ft
 			return tmp;
 		}
 
-		MyIterator operator+=(ptrdiff_t __n)
+		MyIterator operator+=(difference_type __n)
 		{
 			ptr += __n;
 			return (*this);
 		}
 
-		MyIterator &operator-(ptrdiff_t __n)
+		MyIterator &operator-(difference_type __n)
 		{
 			ptr -= __n;
 			return (*this);
@@ -220,13 +178,13 @@ namespace ft
 			return tmp;
 		}
 
-		MyIterator operator-=(ptrdiff_t __n)
+		MyIterator operator-=(difference_type __n)
 		{
 			ptr -= __n;
 			return (*this);
 		}
 
-		reference operator[](ptrdiff_t __n)
+		reference operator[](difference_type __n)
 		{
 			return (ptr[__n]);
 		}
@@ -288,6 +246,7 @@ namespace ft
 			   typename enable_if<!is_integral<InputIterator>::value>::type * = nullptr) : _alloc(alloc)
 		{
 			_size = iterlenght(first, last);
+
 			_capacity = _size;
 
 			_container = _alloc.allocate(_capacity);
@@ -305,14 +264,14 @@ namespace ft
 			*this = other;
 		}
 
+		iterator begin()
+		{
+			return iterator(_container);
+		}
+
 		const_iterator begin() const
 		{
 			return const_iterator(_container);
-		}
-
-		iterator begin()
-		{
-			return iterator(&_container[0]);
 		}
 
 		iterator end()
@@ -441,7 +400,7 @@ namespace ft
 
 		reference at(size_type n)
 		{
-			if (n < 0 || n > _size)
+			if (n < 0 || n >= _size)
 				throw std::out_of_range("index out of bounds");
 			else
 				return (_container[n]);
@@ -449,7 +408,7 @@ namespace ft
 
 		const_reference at(size_type n) const
 		{
-			if (n < 0 || n > _size)
+			if (n < 0 || n >= _size)
 				throw std::out_of_range("index out of bounds");
 			else
 				return (_container[n]);
@@ -476,23 +435,9 @@ namespace ft
 		}
 
 		template <class InputIterator>
-		size_t iterlenght(InputIterator first, InputIterator last)
-		{
-			size_t lenght;
-
-			lenght = 0;
-			for (; first != last; first++)
-			{
-				lenght++;
-			}
-			return (lenght);
-		}
-
-		template <class InputIterator>
-
 		void assign(InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value>::type * = nullptr)
 		{
-			size_t __n;
+			size_type __n;
 
 			__n = iterlenght(first, last);
 			if (__n > 0)
@@ -528,8 +473,6 @@ namespace ft
 			value_type temp;
 			value_type temp2;
 			iterator it;
-			iterator ite;
-
 			size_t i = 0;
 
 			if (position.base())
@@ -678,7 +621,10 @@ namespace ft
 			return allocator_type();
 		}
 
-		~vector(){};
+		~vector()
+		{
+			this->clear();
+		};
 
 		vector &operator=(const vector &rhs)
 		{
@@ -692,8 +638,22 @@ namespace ft
 			}
 			return (*this);
 		}
+
+	private:
+		template <class InputIterator>
+		size_t iterlenght(InputIterator first, InputIterator last)
+		{
+			size_t lenght;
+
+			lenght = 0;
+			for (; first != last; first++)
+			{
+				lenght++;
+			}
+			return (lenght);
+		}
 	};
-	
+
 	template <class T, class Alloc>
 	bool operator==(const vector<T, Alloc> &lhs,
 					const vector<T, Alloc> &rhs)
