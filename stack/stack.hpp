@@ -3,7 +3,7 @@
 
 namespace ft
 {
-	template <class T, class Container = std::vector<T> >
+	template <class T, class Container = ft::vector<T> >
 	class stack
 	{
 	protected:
@@ -53,7 +53,6 @@ namespace ft
 			return ((content.pop_back()));
 		}
 
-		container_type c;
 	};
 
 	template <class _T, class C>
@@ -61,16 +60,19 @@ namespace ft
 	{
 		return (lhs == rhs);
 	}
+
 	template <class _T, class C>
 	bool operator!=(const stack<_T, C> &lhs, const stack<_T, C> &rhs)
 	{
 		return (lhs != rhs);
 	}
+
 	template <class _T, class C>
 	bool operator<(const stack<_T, C> &lhs, const stack<_T, C> &rhs)
 	{
 		return (lhs < rhs);
 	}
+
 	template <class _T, class C>
 	bool operator<=(const stack<_T, C> &lhs, const stack<_T, C> &rhs)
 	{
