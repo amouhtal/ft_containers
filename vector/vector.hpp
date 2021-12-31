@@ -624,6 +624,7 @@ namespace ft
 		~vector()
 		{
 			this->clear();
+			_alloc.deallocate(_container, _capacity);
 		};
 
 		vector &operator=(const vector &rhs)

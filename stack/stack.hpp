@@ -1,5 +1,6 @@
 #ifndef __STACK_HPP
 #define __STACK_HPP
+#include "../vector/vector.hpp"
 
 namespace ft
 {
@@ -10,47 +11,48 @@ namespace ft
 		typedef T value_type;
 		typedef Container container_type;
 		typedef size_t size_type;
-		container_type content;
+		container_type c;
 
 	public:
 
 		stack &operator =(const stack &other)
 		{
-			content = other.content;
+			c = other.c;
 		}
+
 		explicit stack(const container_type &ctnr = container_type())
 		{
-			content = ctnr;
+			c = ctnr;
 		}
 
 		bool empty() const
 		{
-			return content.empty();
+			return c.empty();
 		}
 
 		size_type size() const
 		{
-			return (content.size());
+			return (c.size());
 		}
 
 		void push(const value_type &val)
 		{
-			content.push_back(val);
+			c.push_back(val);
 		}
 
 		value_type &top()
 		{
-			return (*(--content.end()));
+			return (*(--c.end()));
 		}
 
 		const value_type &top() const
 		{
-			return (*(--content.end()));
+			return (*(--c.end()));
 		}
 
 		void pop()
 		{
-			return ((content.pop_back()));
+			return ((c.pop_back()));
 		}
 
 	};

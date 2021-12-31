@@ -100,7 +100,6 @@ namespace ft
 	class MapIterator
 	{
 	public:
-	public:
 		NodPtr _tree;
 		typedef pair value_type;
 
@@ -357,24 +356,13 @@ namespace ft
 
 		const_iterator find(const key_type &k) const
 		{
-			const_iterator it(_tree);
+			bool exist;
+			Node *ret = (_avl.search_by_key(make_pair(k, mapped_type()), exist, _tree));
 
-			if (k < it._tree->pair.first)
-			{
-				it = it._tree->left;
-				it = find(it._tree->left->pair.first);
-			}
-			else if (k > it._tree->pair.first)
-			{
-				it = it._tree->right;
-				it = find(it._tree->right->pair.first);
-			}
-			else
-			{
-				return it;
-			}
+			if (exist)
+				return const_iterator(ret);
 
-			return it;
+			return end();
 		}
 
 		pair<iterator, bool> insert(const value_type &val)
@@ -387,7 +375,6 @@ namespace ft
 			{
 				return ft::make_pair(ret, false);
 			}
-
 			_tree = _avl.insertNode(_tree, val);
 			_tree->parent = end_tree;
 			end_tree->left = _tree;
@@ -399,7 +386,7 @@ namespace ft
 			bool bl;
 
 			NodePtr node = _avl.search_by_key(*position, bl, _tree);
-			if (!bl || position == begin() || position == end())
+			if (!bl || position == begin() || position == --(end()))
 				insert(val);
 			else
 			{
@@ -411,6 +398,8 @@ namespace ft
 					node = _avl.insertNode2(no, val);
 					_tree = _avl.balance_tree(_tree, val);
 				}
+				else
+					insert(val);
 			}
 			return position;
 		}
@@ -496,12 +485,12 @@ namespace ft
 
 		void clear()
 		{
-			_tree = _avl.clear2(_tree);
+			_tree = _avl.clear(_tree);
 		}
 
 		size_type size()
 		{
-			return (_avl.size2(_tree));
+			return (_avl.size(_tree));
 		}
 
 		size_type max_size() const
@@ -516,7 +505,6 @@ namespace ft
 			{
 				it++;
 			}
-
 			return it;
 		}
 
